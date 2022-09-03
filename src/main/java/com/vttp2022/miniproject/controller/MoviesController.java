@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.vttp2022.miniproject.model.Movie;
 import com.vttp2022.miniproject.model.MovieList;
 import com.vttp2022.miniproject.service.MoviesService;
 
@@ -30,16 +31,16 @@ public class MoviesController {
     @GetMapping("/")
     public String generateMostPopularMovies(Model model) {
 
-        Optional<List<String>> optArt = moviesService.getMostPopularMovieIds();
+        Optional<List<Movie>> optArt = moviesService.getMostPopularMovies();
         if (optArt.isEmpty()) {
-            model.addAttribute("moviesIds", new LinkedList<String>());
+            model.addAttribute("mostPopularMovieList", new LinkedList<Movie>());
             return "index";
         }
 
-        List<String> movieIds = optArt.get();
-        movieList.setMovieList(movieIds);
+        List<Movie> mostPopularMovieList = optArt.get();
+        movieList.setMovieList(mostPopularMovieList);
 
-        model.addAttribute("movieIds", movieIds);
+        model.addAttribute("mostPopularMovieList", mostPopularMovieList);
         // model.addAttribute("article", new Movie());
 
         return "index";

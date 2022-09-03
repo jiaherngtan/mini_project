@@ -9,7 +9,31 @@
 </head>
 
 <body>
-    <h1>Hello World!</h1>
+    <h1>Most Popular Movies</h1>
+
+    <div>
+        <form action="#" th:action="@{/articles}" method="post">
+            <input type="submit" value="Save" />
+            <br>
+            <div th:each="i : ${mostPopularMovieList}">
+                <img th:src="@{${i.posterUrl}}" width="200" height="200">
+                <p th:text="*{i.title}"></p>
+                <p th:text="'Runtime in Mins: ' + *{i.runTimeInMins}"></p>
+                <p th:text="'Type: ' + *{i.type}"></p>
+                <p th:text="'Year: ' + *{i.year}"></p>
+                <p th:text="'Rating: ' + *{i.rating}"></p>
+                <p th:text="'Rating Count: ' + *{i.ratingCount}"></p>
+                <p th:text="'Genres: ' + *{i.genres}"></p>
+                <p th:text="'Classification: ' + *{i.Classification}"></p>
+                <label for="id">Save</label>
+                <input id="id" th:value="${i.id}" type="checkbox" name="selectedArticlesList" />
+                <hr>
+
+            </div>
+        </form>
+        <br>
+
+    </div>
 </body>
 
 </html>
