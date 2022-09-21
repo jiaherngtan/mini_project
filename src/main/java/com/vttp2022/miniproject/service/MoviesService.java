@@ -1,9 +1,14 @@
 package com.vttp2022.miniproject.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +89,7 @@ public class MoviesService {
         HashMap<Integer, String> genres = new HashMap<>();
 
         genres.put(28, "Action");
-        genres.put(12, "Adbventure");
+        genres.put(12, "Adventure");
         genres.put(16, "Animation");
         genres.put(35, "Comedy");
         genres.put(80, "Crime");
@@ -103,7 +108,17 @@ public class MoviesService {
         genres.put(10752, "War");
         genres.put(37, "Western");
 
-        return genres;
+        List<Entry<Integer, String>> entryList = new ArrayList<>(genres.entrySet());
+        entryList.sort(Entry.comparingByValue());
+
+        HashMap<Integer, String> sortedGenre = new LinkedHashMap<>();
+        for (Entry<Integer, String> entry : entryList) {
+            sortedGenre.put(entry.getKey(), entry.getValue());
+        }
+
+        logger.info(">>>" + sortedGenre);
+
+        return sortedGenre;
     }
 
     // // redis service method

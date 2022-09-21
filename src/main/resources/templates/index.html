@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <nav class="navbar-top navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-0">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,9 +32,9 @@
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">
-        <div class="container-fluid d-flex flex-row">
+        <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="img/film-icon.png" alt="dbMovie" width="30" height="30">
+                <img src="img/film-icon.png" alt="The Movie Database" width="30" height="30">
                 &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <form class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search database" size="50"
@@ -44,15 +44,15 @@
             </a>
         </div>
     </nav>
-    <nav class="navbar-three navbar navbar-expand-lg">
+    <nav class="navbar-three navbar navbar-expand-lg py-0">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="nav-genre navbar-nav" th:each="i : ${genreList}">
-                    <a class="nav-link" th:text="*{i}" th:href="*{i}"></a>
+                <div class="navbar-nav" th:each="i : ${genreList}">
+                    <a class="nav-genre nav-link" th:text="*{i}" th:href="*{i}"></a>
                 </div>
             </div>
         </div>

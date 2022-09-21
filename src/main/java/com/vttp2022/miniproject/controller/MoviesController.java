@@ -40,12 +40,13 @@ public class MoviesController {
         }
 
         List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> genres = ms.getGenres();
-        for (String i : genres.values()) {
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
             genreList.add(i);
         }
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
+        logger.info("Genre List: " + genreList);
         model.addAttribute("genreList", genreList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);

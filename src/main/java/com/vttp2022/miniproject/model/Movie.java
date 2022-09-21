@@ -26,7 +26,6 @@ public class Movie {
     private String genres;
     // private String classification;
     private List<String> selectedMovieList;
-    private List<String> posterList;
 
     public String getId() {
         return id;
