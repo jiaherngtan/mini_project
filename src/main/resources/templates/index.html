@@ -5,35 +5,110 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Base CSS -->
+    <link th:href="@{/css/base.css}" rel="stylesheet">
+    <!-- Bootstrap Javascript -->
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+
+    <title>The Movie Database</title>
 </head>
 
 <body>
-    <h1>Most Popular Movies</h1>
-
-    <div>
-        <form action="#" th:action="@{/articles}" method="post">
-            <input type="submit" value="Save" />
-            <br>
-            <div th:each="i : ${mostPopularMovieList}">
-                <img th:src="@{${i.posterUrl}}" width="200" height="200">
-                <p th:text="*{i.title}"></p>
-                <p th:text="'Runtime in Mins: ' + *{i.runTimeInMins}"></p>
-                <p th:text="'Type: ' + *{i.type}"></p>
-                <p th:text="'Year: ' + *{i.year}"></p>
-                <p th:text="'Rating: ' + *{i.rating}"></p>
-                <p th:text="'Rating Count: ' + *{i.ratingCount}"></p>
-                <p th:text="'Genres: ' + *{i.genres}"></p>
-                <p th:text="'Classification: ' + *{i.Classification}"></p>
-                <label for="id">Save</label>
-                <input id="id" th:value="${i.id}" type="checkbox" name="selectedArticlesList" />
-                <hr>
-
+    <nav class="navbar-top navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="#">Sign In</a>
+                    <a class="nav-link" href="#">About Us</a>
+                    <a class="nav-link" href="#">Get the App</a>
+                </div>
             </div>
-        </form>
-        <br>
+        </div>
+    </nav>
+    <nav class="navbar-two navbar navbar-expand-lg">
+        <div class="container-fluid d-flex flex-row">
+            <a class="navbar-brand" href="#">
+                <img src="img/film-icon.png" alt="dbMovie" width="30" height="30">
+                &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <form class="d-flex form-control-sm" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search database" size="50"
+                        aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>
+            </a>
+        </div>
+    </nav>
+    <nav class="navbar-three navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="nav-genre navbar-nav" th:each="i : ${genreList}">
+                    <a class="nav-link" th:text="*{i}" th:href="*{i}"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
+
+    <div class="container">
+        <h1>Most Popular Movies</h1>
+        <h2>As determined by users</h2>
+        <p>Showing 20 Titles</p>
+        <!-- <form action="#" th:action="@{/favourite}" method="post">
+            <input type="submit" value="Save" /> -->
+        <br>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row movie-card" th:each="i : ${popularMovies}">
+                    <div class="col-md-3">
+                        <img class="poster" th:src="@{${i.posterUrl}}" width="150" height="200">
+                    </div>
+                    <div class="col-md-9">
+                        <p class="movie-title" th:text="*{i.title}"></p>
+                        <p th:text="*{i.overview}"></p>
+                        <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
+                        <br>
+                        <span th:text="'Rating: ' + *{i.rating} + ' (' + *{i.ratingCount} + ' votes)'"></span>
+                        <br>
+                        <label for="id">Save</label>
+                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" />
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="aside col-md-4">
+                <h2>Top Rated Movies</h2>
+                <hr>
+                <div class="row">
+                    <div class=" col-md-3" th:each="i : ${topRatedMovies}">
+                        <img class="poster" th:src="@{${i.posterUrl}}" width="80" height="120">
+                        <p class="aside-movie-title" th:text="*{i.title}"></p>
+                    </div>
+                </div>
+                <br><br><br>
+                <h2>Top Rated Movies</h2>
+                <hr>
+                <div th:each="i : ${topRatedMovies}">
+                    <span class="movie-title" th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"></span>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- </form> -->
+    </div>
+    <footer class="container-fluid col text-center font-weight-light">
+        &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
+    </footer>
+
 </body>
 
 </html>

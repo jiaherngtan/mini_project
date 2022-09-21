@@ -1,0 +1,85 @@
+@charset "utf-8";
+
+* {
+    font-size: 13px;
+}
+
+/* #header_background {
+    height: 25vh;
+    background: url(images/header\ background.JPG) no-repeat center center;
+    background-size: cover;
+} */
+
+.navbar-top {
+    background-color: #545652;
+    height: 28px;
+}
+
+.navbar-brand {
+    font-size: 13px;
+    font-weight: bold;
+    color: #27a;
+    align-items: center;
+    display: flex;
+}
+
+.navbar-two {
+    background-color: #f0f3f5;
+    align-items: center;
+    display: block;
+    padding: 5px 0 5px 0;
+    border-bottom: 1px dotted lightgrey;
+}
+
+.navbar-three {
+    background-color: #f0f3f5;
+    height: 36px;
+    align-items: center;
+    display: flex;
+}
+
+.container {
+    padding: 30px 30px 30px 30px;
+}
+
+.movie-title {
+    font-size: 14px;
+    font-weight: normal;
+    color: #37a;
+}
+
+.aside-movie-title {
+    font-size: 10px;
+    color: #37a;
+    text-align: center;
+}
+
+h1 {
+    font-size: 26px;
+    color: #494949;
+    padding: 0 0 10px 0;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: 16px;
+    color: #072;
+    margin: 0 0 12px 0;
+    line-height: 150%;
+}
+
+.poster {
+    padding: 0 0 10px 0;
+}
+
+.aside {
+    padding: 0 0 0 80px;
+}
+
+.movie-card {
+    border-bottom: 1px dotted lightgrey;
+}
+
+footer {
+    border-top: 1px dotted lightgrey;
+}

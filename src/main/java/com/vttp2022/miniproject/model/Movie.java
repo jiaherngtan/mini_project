@@ -4,7 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -15,14 +16,17 @@ public class Movie {
 
     private String id;
     private String title;
-    private int runTimeInMins;
-    private String type;
-    private int year;
+    private String overview;
+    // private int runTimeInMins;
+    // private String type;
+    private String releaseDate;
     private String posterUrl;
     private float rating;
     private BigDecimal ratingCount;
     private String genres;
-    private String classification;
+    // private String classification;
+    private List<String> selectedMovieList;
+    private List<String> posterList;
 
     public String getId() {
         return id;
@@ -40,28 +44,36 @@ public class Movie {
         this.title = title;
     }
 
-    public int getRunTimeInMins() {
-        return runTimeInMins;
+    public String getOverview() {
+        return overview;
     }
 
-    public void setRunTimeInMins(int runTimeInMins) {
-        this.runTimeInMins = runTimeInMins;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
-    public String getType() {
-        return type;
+    // public int getRunTimeInMins() {
+    // return runTimeInMins;
+    // }
+
+    // public void setRunTimeInMins(int runTimeInMins) {
+    // this.runTimeInMins = runTimeInMins;
+    // }
+
+    // public String getType() {
+    // return type;
+    // }
+
+    // public void setType(String type) {
+    // this.type = type;
+    // }
+
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getPosterUrl() {
@@ -96,61 +108,58 @@ public class Movie {
         this.genres = genres;
     }
 
-    public String getClassification() {
-        return classification;
+    // public String getClassification() {
+    // return classification;
+    // }
+
+    // public void setClassification(String classification) {
+    // this.classification = classification;
+    // }
+
+    public List<String> getSelectedMovieList() {
+        return selectedMovieList;
     }
 
-    public void setClassification(String classification) {
-        this.classification = classification;
+    public void setSelectedMovieList(List<String> selectedMovieList) {
+        this.selectedMovieList = selectedMovieList;
     }
 
-    public static Movie JsonGetMovie(String movieId, String json) throws IOException {
+    public static List<Movie> createJsonGetMovies(String json) throws IOException {
 
-        Movie movie = new Movie();
+        List<Movie> movieList = new LinkedList<>();
 
         try (InputStream is = new ByteArrayInputStream(json.getBytes())) {
             JsonReader jr = Json.createReader(is);
             JsonObject jo = jr.readObject();
-            JsonObject mainObj = jo.getJsonObject(movieId);
-            JsonObject titleObj = mainObj.getJsonObject("title");
-            JsonObject imgObj = titleObj.getJsonObject("image");
-            JsonObject ratingObj = mainObj.getJsonObject("ratings");
+            JsonArray ja = jo.getJsonArray("results");
 
-            String id = titleObj.getString("id");
-            String title = titleObj.getString("title");
-            int runTimeInMins = titleObj.getInt("runningTimeInMinutes");
-            String type = titleObj.getString("titleType");
-            int year = titleObj.getInt("year");
-            String posterUrl = imgObj.getString("url");
-            boolean canRate = ratingObj.getBoolean("canRate");
-            float rating = ratingObj.getInt("rating");
-            BigDecimal ratingCount = ratingObj.getJsonNumber("ratingCount").bigDecimalValue();
+            for (int i = 0; i < ja.size(); i++) {
+                Movie movie = new Movie();
+                String url = "https://image.tmdb.org/t/p/original/";
 
-            JsonArray ja = mainObj.getJsonArray("genres");
-            String classification = mainObj.getString("certificate");
+                JsonObject item = ja.getJsonObject(i);
+                String id = item.getJsonNumber("id").toString();
+                String title = item.getString("title");
+                String overview = item.getString("overview");
+                String posterUrl = item.getString("poster_path");
+                String releaseDate = item.getString("release_date");
+                float rating = item.getJsonNumber("vote_average").bigDecimalValue().floatValue();
+                BigDecimal ratingCount = item.getJsonNumber("vote_count").bigDecimalValue();
 
-            int numOfGenres = ja.size();
-            String[] genresArr = new String[numOfGenres];
-            for (int i = 0; i < numOfGenres; i++) {
-                genresArr[i] = ja.getString(i);
+                movie.setId(id);
+                movie.setTitle(title);
+                movie.setOverview(overview);
+                movie.setPosterUrl(url + posterUrl);
+                movie.setReleaseDate(releaseDate);
+                movie.setRating(rating);
+                movie.setRatingCount(ratingCount);
+
+                movieList.add(movie);
             }
 
-            movie.setId(id);
-            movie.setTitle(title);
-            movie.setRunTimeInMins(runTimeInMins);
-            movie.setType(type);
-            movie.setYear(year);
-            movie.setPosterUrl(posterUrl);
-            movie.setRating(rating);
-            movie.setRatingCount(ratingCount);
-            movie.setGenres(Arrays.toString(genresArr));
-            movie.setClassification(classification);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        return movie;
+        return movieList;
     }
 
 }
