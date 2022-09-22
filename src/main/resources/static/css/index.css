@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 * {
+    color: #666666;
     font-size: 13px;
 }
 
@@ -14,7 +15,7 @@
     background-color: #545652;
 }
 
-.navbar-brand {
+#navbar-branding {
     font-size: 13px;
     font-weight: bold;
     color: #27a;
@@ -40,6 +41,11 @@
     padding: 30px 30px 30px 30px;
 }
 
+.movie-card {
+    border-top: 1px dotted lightgrey;
+    position: relative;
+}
+
 .movie-title {
     font-size: 14px;
     font-weight: normal;
@@ -47,10 +53,31 @@
     padding: 10px 0 0 0;
 }
 
+a {
+    color: #37a;
+    text-decoration: none;
+}
+
+.star {
+    color: #a9a9a9;
+}
+
+.rating-num {
+    color: #e09015;
+}
+
 .aside-movie-title {
-    font-size: 10px;
+    font-size: 12px;
     color: #37a;
     text-align: center;
+}
+
+.list-movie-title {
+    font-size: 14px;
+    font-weight: normal;
+    color: #37a;
+    border-bottom: 1px dotted lightgrey;
+    padding: 5px 0 5px 0;
 }
 
 h1 {
@@ -73,10 +100,6 @@ h2 {
 
 .aside {
     padding: 0 0 0 80px;
-}
-
-.movie-card {
-    border-top: 1px dotted lightgrey;
 }
 
 footer {

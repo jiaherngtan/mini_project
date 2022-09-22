@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,10 +66,59 @@ public class MoviesService {
 
         try {
             resp = template.getForEntity(url, String.class);
-            // logger.info("resp body >>> " + resp.getBody());
             topMovieList = Movie.createJsonGetMovies(resp.getBody());
 
             return Optional.of(topMovieList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Movie> getMovie(String id) {
+
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/" + id + "?")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en")
+                .toUriString();
+
+        Movie movie = new Movie();
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+
+        try {
+            resp = template.getForEntity(url, String.class);
+            movie = Movie.createJsonGetMovieDetails(resp.getBody());
+
+            return Optional.of(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public Optional<List<Movie>> getSimilarMovies(String id) {
+
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/" + id + "/similar?")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en")
+                .queryParam("page", "1")
+                .toUriString();
+
+        List<Movie> similarMovieList = new LinkedList<>();
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+
+        try {
+            resp = template.getForEntity(url, String.class);
+            // logger.info("resp body >>> " + resp.getBody());
+            logger.info("Similar Movie List >>> " + similarMovieList);
+            similarMovieList = Movie.createJsonGetMovies(resp.getBody());
+            logger.info("Similar Movie List >>> " + similarMovieList);
+
+            return Optional.of(similarMovieList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,9 +163,8 @@ public class MoviesService {
             sortedGenre.put(entry.getKey(), entry.getValue());
         }
 
-        logger.info(">>>" + sortedGenre);
-
         return sortedGenre;
+
     }
 
     // // redis service method

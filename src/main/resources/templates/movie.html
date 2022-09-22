@@ -6,15 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon-32x32.png" />
+    <!-- star icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Base CSS -->
-    <link th:href="@{/css/index.css}" rel="stylesheet">
+    <link th:href="@{/css/movie.css}" rel="stylesheet">
     <!-- Bootstrap Javascript -->
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 
-    <title>The Movie Database</title>
+    <title th:text="*{movie.title}"></title>
 </head>
 
 <body>
@@ -36,8 +37,7 @@
     <nav class="navbar-two navbar navbar-expand-lg">
         <div class="container-fluid">
             <div id="navbar-branding" class="navbar-brand">
-                <a id="navbar-branding" href="/"><img src="img/film-icon.png" alt="The Movie Database" width="30"
-                        height="30">
+                <a id="navbar-branding" href="/"><img src="img/film-icon.png" width="30" height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search database" size="50"
@@ -63,56 +63,71 @@
 
 
     <div class="container">
-        <h1>Most Popular Movies</h1>
-        <h2>As determined by users</h2>
-        <p>Showing 20 Titles</p>
+        <h1 th:text="*{movie.title} + ' (' + *{movie.releaseYear} + ')'"></h1>
         <!-- <form action="#" th:action="@{/favourite}" method="post">
             <input type="submit" value="Save" /> -->
         <br>
         <div class="row">
             <div class="col-md-8">
-                <div class="row movie-card" th:each="i : ${popularMovies}">
+                <div class="row">
                     <div class="col-md-3">
-                        <a th:href="@{/subject}"><img class="poster" th:src="@{${i.posterUrl}}" width="150"
-                                height="200"></a>
+                        <img class="poster" th:src="@{${movie.posterUrl}}" width="200" height="300">
                     </div>
-                    <div class="col-md-9">
-                        <div class="movie-title">
-                            <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
+                    <div class="movie-card col-md-9">
+                        <div id="movie-info-top">
+                            Genre:
+                            <span class="blueing" th:each="i, iterStat : ${movieGenreList}"
+                                th:text="!${iterStat.last} ? ${i} + ', ': ${i}"></span>
+                            <br>
+                            Production Country:
+                            <span class="blueing" th:each="i, iterStat : ${movieCountryList}"
+                                th:text="!${iterStat.last} ? ${i} + ', ': ${i}"></span>
+                            <br>
+                            Language:
+                            <span class="blueing" th:each="i, iterStat : ${movieLangList}"
+                                th:text="!${iterStat.last} ? ${i} + ', ': ${i}"></span>
+                            <br>
+                            Release Date:
+                            <span class="blueing" th:text="*{movie.releaseDate}"></span>
+                            <br>
+                            Runtime:
+                            <span class="blueing" th:text="*{movie.runtime} + ' mins'"></span>
+                            <br>
+                            IMDb:
+                            <span class="blueing" th:text="*{movie.imdbId}"></span>
                         </div>
-                        <br>
-                        <p th:text="*{i.overview}"></p>
-                        <div class="movie-info-bottom">
-                            <!-- <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
-                            <br> -->
+                        <div id="movie-info-bottom">
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <!-- &nbsp; -->
-                            <span class="rating-num" th:text="*{i.rating}"></span><span
-                                th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
-
+                            <span class="rating-num" th:text="*{movie.rating}"></span><span
+                                th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
                         </div>
-                        <br>
-                        <!-- <label for="id">Save</label>
+                    </div>
+                    <h2>Storyline</h2>
+                    <p th:text="*{movie.overview}"></p>
+                    <!-- <label for="id">Save</label>
                         <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
+                    <h2>More like this</h2>
+                    <div class="row">
+                        <div class="col-md-3" th:each="i : ${similarMovies}">
+                            <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
+                                    width="150" height="200"></a>
+                            <div class="more-like-this-movie-title">
+                                <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br>
             </div>
             <div class="aside col-md-4">
-                <h2>Top Rated Movies</h2>
-                <hr>
-                <div class="row">
-                    <div class=" col-md-3" th:each="i : ${topRatedMovies}">
-                        <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
-                                width="80" height="120"></a>
-                        <div class="aside-movie-title">
-                            <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
-                        </div>
-                    </div>
+                <h2>Popular Movies</h2>
+                <div class="list-movie-title" th:each="i : ${popularMovies}">
+                    <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
+                        th:href="@{/subject/{id}(id=${i.id})}"></a>
                 </div>
                 <br><br><br>
                 <h2>Top Rated Movies</h2>
@@ -124,7 +139,6 @@
         </div>
     </div>
     <!-- </form> -->
-    </div>
     <footer class="container-fluid col text-center font-weight-light">
         &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
     </footer>

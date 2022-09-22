@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.vttp2022.miniproject.model.Movie;
@@ -46,13 +47,62 @@ public class MoviesController {
         }
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
-        logger.info("Genre List: " + genreList);
+        // logger.info("Genre List: " + genreList);
         model.addAttribute("genreList", genreList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movie", new Movie());
 
         return "index";
+    }
+
+    @GetMapping("/subject/{id}")
+    public String generateMovieDetails(Model model, @PathVariable String id) {
+
+        Optional<Movie> optMovie = ms.getMovie(id);
+        Optional<List<Movie>> optSimilarMovies = ms.getSimilarMovies(id);
+        Optional<List<Movie>> optPopularMovies = ms.getPopularMovies();
+        Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
+
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        if (optSimilarMovies.isEmpty()) {
+            model.addAttribute("similarMovies", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optPopularMovies.isEmpty()) {
+            model.addAttribute("popularMovies", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optTopRatedMovies.isEmpty()) {
+            model.addAttribute("topRatedMovies", new LinkedList<Movie>());
+            return "index";
+        }
+
+        Movie movie = optMovie.get();
+        List<Movie> similarMovieList = optSimilarMovies.get();
+        List<Movie> popularMovieList = optPopularMovies.get();
+        List<Movie> topRatedMovieList = optTopRatedMovies.get();
+        List<String> genreList = new LinkedList<>();
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
+            genreList.add(i);
+        }
+        List<String> movieGenreList = movie.getGenres();
+        List<String> movieCountryList = movie.getCountries();
+        List<String> movieLangList = movie.getLanguages();
+        model.addAttribute("genreList", genreList);
+        model.addAttribute("movieCountryList", movieCountryList);
+        model.addAttribute("movieGenreList", movieGenreList);
+        model.addAttribute("movieLangList", movieLangList);
+        model.addAttribute("movie", movie);
+        model.addAttribute("similarMovies", similarMovieList);
+        model.addAttribute("popularMovies", popularMovieList);
+        model.addAttribute("topRatedMovies", topRatedMovieList);
+
+        return "movie";
     }
 
     @PostMapping("/favourite")
