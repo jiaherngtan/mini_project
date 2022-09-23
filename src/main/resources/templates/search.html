@@ -6,16 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon-32x32.png" />
-    <!-- star icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Base CSS -->
-    <link th:href="@{/css/genre.css}" rel="stylesheet">
+    <link th:href="@{/css/index.css}" rel="stylesheet">
     <!-- Bootstrap Javascript -->
     <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
 
-    <title th:text="'Top 20 ' + *{genre} + ' Movies'"></title>
+    <title th:text="*{queryString} + ' - Find'"></title>
 </head>
 
 <body>
@@ -37,7 +36,8 @@
     <nav class="navbar-two navbar navbar-expand-lg">
         <div class="container-fluid">
             <div id="navbar-branding" class="navbar-brand">
-                <a id="navbar-branding" href="/"><img src="/img/film-icon.png" width="30" height="30">
+                <a id="navbar-branding" href="/"><img src="/img/film-icon.png" alt="The Movie Database" width="30"
+                        height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
                     class="d-flex form-control-sm" role="search">
@@ -62,36 +62,61 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1 th:text="'Top 20 ' + *{genre} + ' Movies'"></h1>
+
+    <div class=" container">
+        <h1 th:text="'Results for &#147;' + *{queryString} + '&#8221;'"></h1>
+        <!-- <form action="#" th:action="@{/favourite}" method="post">
+            <input type="submit" value="Save" /> -->
         <br>
-        <div class="genre-card row">
-            <div class="genre-movie-card col-md-5" th:each="i : ${moviesByGenre}">
-                <br>
-                <div class="row">
-                    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row movie-card" th:each="i : ${moviesBySearch}">
+                    <div class="col-md-3">
                         <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
-                                width="100" height="125"></a>
+                                width="150" height="200"></a>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="movie-title">
                             <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
                         </div>
                         <br>
-                        <p th:text="'Release Date: ' + *{i.releaseDate}"></p>
+                        <p th:text="*{i.overview}"></p>
                         <div class="movie-info-bottom">
+                            <!-- <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
+                            <br> -->
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
+                            <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
+
                         </div>
+                        <br>
+                        <!-- <label for="id">Save</label>
+                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
                     </div>
+                </div>
+                <br>
+            </div>
+            <div class="col-md-4">
+                <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
+                <div class="list-movie-title" th:each="i : ${nowPlayingMovies}">
+                    <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
+                        th:href="@{/subject/{id}(id=${i.id})}"></a>
+                </div>
+                <br><br>
+                <h2>Now Playing&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
+                <div class="list-movie-title" th:each="i : ${topRatedMovies}">
+                    <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
+                        th:href="@{/subject/{id}(id=${i.id})}"></a>
                 </div>
             </div>
         </div>
+    </div>
+    <!-- </form> -->
     </div>
 
     <footer class="container-fluid col text-center font-weight-light">

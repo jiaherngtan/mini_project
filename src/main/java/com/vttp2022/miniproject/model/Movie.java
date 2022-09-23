@@ -32,6 +32,7 @@ public class Movie {
     private List<String> languages;
     private List<String> selectedMovieList;
     private BigDecimal budget;
+    private String queryString;
 
     public String getId() {
         return id;
@@ -153,6 +154,14 @@ public class Movie {
         this.selectedMovieList = selectedMovieList;
     }
 
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+    }
+
     public static final Logger logger = LoggerFactory.getLogger(Movie.class);
 
     public static List<Movie> createJsonGetMovies(String json) throws IOException {
@@ -189,7 +198,53 @@ public class Movie {
 
                 movieList.add(movie);
             }
+        }
 
+        return movieList;
+    }
+
+    public static List<Movie> createJsonGetSearchMovies(String json) throws IOException {
+
+        List<Movie> movieList = new LinkedList<>();
+
+        try (InputStream is = new ByteArrayInputStream(json.getBytes())) {
+            JsonReader jr = Json.createReader(is);
+            JsonObject jo = jr.readObject();
+            JsonArray ja = jo.getJsonArray("results");
+
+            int length;
+            if (ja.size() < 7) {
+                length = ja.size();
+            } else {
+                length = 7;
+            }
+            logger.info("length >>> " + length);
+
+            for (int i = 0; i < length; i++) {
+                Movie movie = new Movie();
+                String url = "https://image.tmdb.org/t/p/original/";
+
+                JsonObject item = ja.getJsonObject(i);
+                String id = item.getJsonNumber("id").toString();
+                String title = item.getString("title");
+                String overview = item.getString("overview");
+                String posterUrl = item.getString("poster_path");
+                String releaseDate = item.getString("release_date");
+                float rating = item.getJsonNumber("vote_average").bigDecimalValue().floatValue();
+                int scale = (int) Math.pow(10, 1);
+                rating = (float) Math.round(rating * scale) / scale;
+                BigDecimal ratingCount = item.getJsonNumber("vote_count").bigDecimalValue();
+
+                movie.setId(id);
+                movie.setTitle(title);
+                movie.setOverview(overview);
+                movie.setReleaseDate(releaseDate);
+                movie.setPosterUrl(url + posterUrl);
+                movie.setRating(rating);
+                movie.setRatingCount(ratingCount);
+
+                movieList.add(movie);
+            }
         }
 
         return movieList;

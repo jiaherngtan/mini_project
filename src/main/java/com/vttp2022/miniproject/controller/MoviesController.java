@@ -53,12 +53,11 @@ public class MoviesController {
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
         List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
-        // logger.info("Genre List: " + genreList);
         model.addAttribute("genreList", genreList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
-        model.addAttribute("movie", new Movie());
+        model.addAttribute("movieObj", new Movie());
 
         return "index";
     }
@@ -108,6 +107,7 @@ public class MoviesController {
         model.addAttribute("similarMovies", similarMovieList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
+        model.addAttribute("movieObj", new Movie());
 
         return "movie";
     }
@@ -132,12 +132,55 @@ public class MoviesController {
         model.addAttribute("genre", genre);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
+        model.addAttribute("movieObj", new Movie());
 
         return "genre";
     }
 
+    @PostMapping("/search")
+    public String searchMovie(@ModelAttribute Movie movie, Model model) {
+
+        String queryString = movie.getQueryString();
+        logger.info("Query String >>>" + queryString);
+
+        Optional<List<Movie>> optMoviesBySearch = ms.getMoviesBySearch(queryString);
+        Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
+        Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
+
+        if (optMoviesBySearch.isEmpty()) {
+            model.addAttribute("moviesBySearch", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optNowPlayingMovies.isEmpty()) {
+            model.addAttribute("nowPlayingMovies", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optTopRatedMovies.isEmpty()) {
+            model.addAttribute("topRatedMovies", new LinkedList<Movie>());
+            return "index";
+        }
+
+        List<Movie> moviesBySearchList = optMoviesBySearch.get();
+        List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
+        List<Movie> topRatedMovieList = optTopRatedMovies.get();
+
+        List<String> genreList = new LinkedList<>();
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
+            genreList.add(i);
+        }
+        model.addAttribute("queryString", queryString);
+        model.addAttribute("genreList", genreList);
+        model.addAttribute("moviesBySearch", moviesBySearchList);
+        model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
+        model.addAttribute("topRatedMovies", topRatedMovieList);
+        model.addAttribute("movieObj", new Movie());
+
+        return "search";
+    }
+
     @PostMapping("/favourite")
-    public String selectedMovies(@ModelAttribute Movie movie) {
+    public String selectedMovies(@ModelAttribute Movie movie, Model model) {
 
         List<String> favouriteMovieList = movie.getSelectedMovieList();
 

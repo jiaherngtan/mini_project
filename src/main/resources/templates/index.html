@@ -39,9 +39,10 @@
                 <a id="navbar-branding" href="/"><img src="img/film-icon.png" alt="The Movie Database" width="30"
                         height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <form class="d-flex form-control-sm" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search database" size="50"
-                        aria-label="Search">
+                <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
+                    class="d-flex form-control-sm" role="search">
+                    <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
+                        size="50" aria-label="Search">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -83,17 +84,13 @@
                         <br>
                         <p th:text="*{i.overview}"></p>
                         <div class="movie-info-bottom">
-                            <!-- <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
-                            <br> -->
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
-                            <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
-
                         </div>
                         <br>
                         <!-- <label for="id">Save</label>
@@ -102,8 +99,8 @@
                 </div>
                 <br>
             </div>
-            <div class="aside col-md-4">
-                <h2>Top Rated Movies</h2>
+            <div class="col-md-4">
+                <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <hr>
                 <div class="row">
                     <div class=" col-md-3" th:each="i : ${topRatedMovies}">
@@ -114,8 +111,8 @@
                         </div>
                     </div>
                 </div>
-                <br><br><br>
-                <h2>Now Playing</h2>
+                <br><br>
+                <h2>Now Playing&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${nowPlayingMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
                         th:href="@{/subject/{id}(id=${i.id})}"></a>

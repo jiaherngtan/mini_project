@@ -39,9 +39,10 @@
             <div id="navbar-branding" class="navbar-brand">
                 <a id="navbar-branding" href="/"><img src="/img/film-icon.png" width="30" height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <form class="d-flex form-control-sm" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search database" size="50"
-                        aria-label="Search">
+                <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
+                    class="d-flex form-control-sm" role="search">
+                    <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
+                        size="50" aria-label="Search">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -66,14 +67,13 @@
         <h1 th:text="*{movie.title} + ' (' + *{movie.releaseYear} + ')'"></h1>
         <!-- <form action="#" th:action="@{/favourite}" method="post">
             <input type="submit" value="Save" /> -->
-        <br>
         <div class="row">
-            <div class="col-md-8">
+            <div class="movie-card col-md-8">
                 <div class="row">
                     <div class="col-md-3">
                         <img class="poster" th:src="@{${movie.posterUrl}}" width="200" height="300">
                     </div>
-                    <div class="movie-card col-md-9">
+                    <div class="movie-card-content col-md-9">
                         <div id="movie-info-top">
                             Genre:
                             <span class="blueing" th:each="i, iterStat : ${movieGenreList}"
@@ -106,15 +106,16 @@
                                 th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
                         </div>
                     </div>
-                    <h2>Storyline</h2>
+                    <h2>Storyline&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                     <p th:text="*{movie.overview}"></p>
                     <!-- <label for="id">Save</label>
                         <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
-                    <h2>More like this</h2>
-                    <div class="row">
-                        <div class="col-md-3" th:each="i : ${similarMovies}">
+                    <h2>More like this&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
+
+                    <div class="row row-cols-5">
+                        <div class="col" th:each="i : ${similarMovies}">
                             <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
-                                    width="150" height="200"></a>
+                                    width="120" height="180"></a>
                             <div class="more-like-this-movie-title">
                                 <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
                             </div>
@@ -122,14 +123,14 @@
                     </div>
                 </div>
             </div>
-            <div class="aside col-md-4">
-                <h2>Popular Movies</h2>
+            <div class="aside col-md-3">
+                <h2>Popular Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${popularMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
                         th:href="@{/subject/{id}(id=${i.id})}"></a>
                 </div>
                 <br><br><br>
-                <h2>Top Rated Movies</h2>
+                <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${topRatedMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
                         th:href="@{/subject/{id}(id=${i.id})}"></a>

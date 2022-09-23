@@ -206,10 +206,38 @@ public class MoviesService {
 
         try {
             resp = template.getForEntity(url, String.class);
-            // logger.info("resp body >>> " + resp.getBody());
             similarMovieList = Movie.createJsonGetMovies(resp.getBody());
 
             return Optional.of(similarMovieList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    public Optional<List<Movie>> getMoviesBySearch(String queryString) {
+
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/search/movie?")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en")
+                .queryParam("query", queryString)
+                .queryParam("page", "1")
+                .queryParam("include_adult", "false")
+                .toUriString();
+
+        String urlUpdate = url.replace("%20", " ");
+
+        List<Movie> searchMovieList = new LinkedList<>();
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+
+        try {
+            resp = template.getForEntity(urlUpdate, String.class);
+            // logger.info("resp body >>> " + resp.getBody());
+            searchMovieList = Movie.createJsonGetSearchMovies(resp.getBody());
+
+            return Optional.of(searchMovieList);
         } catch (Exception e) {
             e.printStackTrace();
         }
