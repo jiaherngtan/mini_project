@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
 import com.vttp2022.miniproject.service.MoviesService;
@@ -137,10 +138,12 @@ public class MoviesController {
         return "genre";
     }
 
-    @PostMapping("/search")
-    public String searchMovie(@ModelAttribute Movie movie, Model model) {
+    // @PostMapping("/search")
+    // public String searchMovie(@ModelAttribute Movie movie, Model model) {
+    @GetMapping("/search")
+    public String searchMovie(@RequestParam(required = true) String query, Model model) {
 
-        String queryString = movie.getQueryString();
+        String queryString = query;
         logger.info("Query String >>>" + queryString);
 
         Optional<List<Movie>> optMoviesBySearch = ms.getMoviesBySearch(queryString);

@@ -39,10 +39,9 @@
                 <a id="navbar-branding" href="/"><img src="/img/film-icon.png" alt="The Movie Database" width="30"
                         height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
-                    class="d-flex form-control-sm" role="search">
-                    <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
-                        size="50" aria-label="Search">
+                <form action="search" method="get" class="d-flex form-control-sm" role="search">
+                    <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
+                        aria-label="Search">
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
