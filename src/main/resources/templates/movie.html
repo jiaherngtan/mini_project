@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon-32x32.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon-32x32.png" />
     <!-- star icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap CSS -->
@@ -37,7 +37,7 @@
     <nav class="navbar-two navbar navbar-expand-lg">
         <div class="container-fluid">
             <div id="navbar-branding" class="navbar-brand">
-                <a id="navbar-branding" href="/"><img src="img/film-icon.png" width="30" height="30">
+                <a id="navbar-branding" href="/"><img src="/img/film-icon.png" width="30" height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search database" size="50"
@@ -55,7 +55,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav" th:each="i : ${genreList}">
-                    <a class="nav-genre nav-link" th:text="*{i}" th:href="*{i}"></a>
+                    <a class="nav-genre nav-link" th:text="*{i}" th:href="@{/genre/{id}(id=${i})}"></a>
                 </div>
             </div>
         </div>
@@ -102,7 +102,6 @@
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
-                            <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{movie.rating}"></span><span
                                 th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
                         </div>

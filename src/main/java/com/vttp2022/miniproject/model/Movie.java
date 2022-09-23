@@ -171,11 +171,12 @@ public class Movie {
                 JsonObject item = ja.getJsonObject(i);
                 String id = item.getJsonNumber("id").toString();
                 String title = item.getString("title");
-                logger.info(">>>" + title);
                 String overview = item.getString("overview");
                 String posterUrl = item.getString("poster_path");
                 String releaseDate = item.getString("release_date");
                 float rating = item.getJsonNumber("vote_average").bigDecimalValue().floatValue();
+                int scale = (int) Math.pow(10, 1);
+                rating = (float) Math.round(rating * scale) / scale;
                 BigDecimal ratingCount = item.getJsonNumber("vote_count").bigDecimalValue();
 
                 movie.setId(id);
@@ -188,7 +189,6 @@ public class Movie {
 
                 movieList.add(movie);
             }
-            logger.info("MOVIE LIST >>> " + movieList);
 
         }
 
@@ -240,6 +240,8 @@ public class Movie {
             String releaseYear = releaseDateArr[0];
             int runtime = jo.getInt("runtime");
             float rating = jo.getJsonNumber("vote_average").bigDecimalValue().floatValue();
+            int scale = (int) Math.pow(10, 1);
+            rating = (float) Math.round(rating * scale) / scale;
             BigDecimal ratingCount = jo.getJsonNumber("vote_count").bigDecimalValue();
 
             movie.setId(id);

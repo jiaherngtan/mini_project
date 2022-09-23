@@ -31,12 +31,17 @@ public class MoviesController {
 
         Optional<List<Movie>> optPopularMovies = ms.getPopularMovies();
         Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
+        Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
         if (optPopularMovies.isEmpty()) {
             model.addAttribute("popularMovies", new LinkedList<Movie>());
             return "index";
         }
         if (optTopRatedMovies.isEmpty()) {
             model.addAttribute("topRatedMovies", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optNowPlayingMovies.isEmpty()) {
+            model.addAttribute("nowPlayingMovies", new LinkedList<Movie>());
             return "index";
         }
 
@@ -47,10 +52,12 @@ public class MoviesController {
         }
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
+        List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
         // logger.info("Genre List: " + genreList);
         model.addAttribute("genreList", genreList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
+        model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("movie", new Movie());
 
         return "index";
@@ -103,6 +110,30 @@ public class MoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
 
         return "movie";
+    }
+
+    @GetMapping("/genre/{genre}")
+    public String generateMoviesByGenre(Model model, @PathVariable String genre) {
+
+        Optional<List<Movie>> optMoviesByGenre = ms.getMoviesByGenre(genre);
+
+        if (optMoviesByGenre.isEmpty()) {
+            model.addAttribute("moviesByGenre", new LinkedList<Movie>());
+            return "index";
+        }
+
+        List<Movie> moviesByGenreList = optMoviesByGenre.get();
+
+        List<String> genreList = new LinkedList<>();
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
+            genreList.add(i);
+        }
+        model.addAttribute("genre", genre);
+        model.addAttribute("genreList", genreList);
+        model.addAttribute("moviesByGenre", moviesByGenreList);
+
+        return "genre";
     }
 
     @PostMapping("/favourite")

@@ -75,23 +75,23 @@ public class MoviesService {
         return Optional.empty();
     }
 
-    public Optional<Movie> getMovie(String id) {
-
-        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/" + id + "?")
+    public Optional<List<Movie>> getNowPlayingMovies() {
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/now_playing?")
                 .queryParam("api_key", apiKey)
                 .queryParam("language", "en")
+                .queryParam("page", "1")
                 .toUriString();
 
-        Movie movie = new Movie();
+        List<Movie> topMovieList = new LinkedList<>();
 
         RestTemplate template = new RestTemplate();
         ResponseEntity<String> resp = null;
 
         try {
             resp = template.getForEntity(url, String.class);
-            movie = Movie.createJsonGetMovieDetails(resp.getBody());
+            topMovieList = Movie.createJsonGetMovies(resp.getBody());
 
-            return Optional.of(movie);
+            return Optional.of(topMovieList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,10 +113,7 @@ public class MoviesService {
 
         try {
             resp = template.getForEntity(url, String.class);
-            // logger.info("resp body >>> " + resp.getBody());
-            logger.info("Similar Movie List >>> " + similarMovieList);
             similarMovieList = Movie.createJsonGetMovies(resp.getBody());
-            logger.info("Similar Movie List >>> " + similarMovieList);
 
             return Optional.of(similarMovieList);
         } catch (Exception e) {
@@ -125,10 +122,27 @@ public class MoviesService {
         return Optional.empty();
     }
 
-    // redis service method
-    public void saveMovies(List<String> favouriteMovieList) {
+    public Optional<Movie> getMovie(String id) {
 
-        logger.info(">>> movies to be saved on redis: " + favouriteMovieList);
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/" + id + "?")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en")
+                .toUriString();
+
+        Movie movie = new Movie();
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+
+        try {
+            resp = template.getForEntity(url, String.class);
+            movie = Movie.createJsonGetMovieDetails(resp.getBody());
+
+            return Optional.of(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 
     public HashMap<Integer, String> getGenres() {
@@ -165,6 +179,47 @@ public class MoviesService {
 
         return sortedGenre;
 
+    }
+
+    public Optional<List<Movie>> getMoviesByGenre(String genre) {
+
+        HashMap<Integer, String> genres = new HashMap<>();
+        String id = null;
+        genres = this.getGenres();
+
+        for (Entry<Integer, String> entry : genres.entrySet()) {
+            if (entry.getValue().equals(genre)) {
+                id = entry.getKey().toString();
+            }
+        }
+
+        String url = UriComponentsBuilder.fromUriString("https://api.themoviedb.org/3/movie/" + id + "/similar?")
+                .queryParam("api_key", apiKey)
+                .queryParam("language", "en")
+                .queryParam("page", "1")
+                .toUriString();
+
+        List<Movie> similarMovieList = new LinkedList<>();
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity<String> resp = null;
+
+        try {
+            resp = template.getForEntity(url, String.class);
+            // logger.info("resp body >>> " + resp.getBody());
+            similarMovieList = Movie.createJsonGetMovies(resp.getBody());
+
+            return Optional.of(similarMovieList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    // redis service method
+    public void saveMovies(List<String> favouriteMovieList) {
+
+        logger.info(">>> movies to be saved on redis: " + favouriteMovieList);
     }
 
     // // redis service method

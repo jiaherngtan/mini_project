@@ -30,7 +30,6 @@ h2 {
 }
 
 #navbar-branding {
-    font-size: 13px;
     font-weight: bold;
     color: #27a;
     align-items: center;
@@ -55,25 +54,31 @@ h2 {
     padding: 30px 30px 30px 30px;
 }
 
+.genre-card {
+    padding: 0 150px 0 150px;
+    border-top: 1px dotted lightgrey;
+}
+
+.genre-movie-card {
+    margin: 0 50px 0 0;
+    border-bottom: 1px dotted lightgrey;
+    position: relative;
+}
+
 .poster {
     margin: 10px 0 10px 0;
 }
 
-.movie-card {
-    position: relative;
-}
-
-#movie-info-top {
+.movie-title {
+    font-size: 14px;
+    font-weight: normal;
+    color: #37a;
     padding: 10px 0 0 0;
 }
 
-#movie-info-bottom {
+.movie-info-bottom {
     position: absolute;
     bottom: 10px;
-}
-
-.blueing {
-    color: #37a;
 }
 
 .star {
@@ -82,23 +87,6 @@ h2 {
 
 .rating-num {
     color: #e09015;
-}
-
-.more-like-this-movie-title {
-    text-align: center;
-    margin: 0 50px 0 0;
-}
-
-.aside {
-    padding: 0 0 0 80px;
-}
-
-.list-movie-title {
-    font-size: 14px;
-    font-weight: normal;
-    color: #37a;
-    border-bottom: 1px dotted lightgrey;
-    padding: 5px 0 5px 0;
 }
 
 footer {
