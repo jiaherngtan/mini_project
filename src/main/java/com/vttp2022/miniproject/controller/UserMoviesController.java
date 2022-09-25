@@ -64,6 +64,7 @@ public class UserMoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userIndex";
@@ -117,6 +118,7 @@ public class UserMoviesController {
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userMovie";
@@ -145,6 +147,7 @@ public class UserMoviesController {
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userGenre";
@@ -190,6 +193,7 @@ public class UserMoviesController {
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userSearch";

@@ -72,7 +72,7 @@ h2 {
 
 .movie-info-bottom {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
 }
 
 .star {
@@ -81,6 +81,10 @@ h2 {
 
 .rating-num {
     color: #e09015;
+}
+
+.watchlist-btn {
+    margin-bottom: 9px;
 }
 
 .poster {

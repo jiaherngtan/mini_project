@@ -24,7 +24,7 @@
             <div id="navbar-branding" class="navbar-brand"></div>
             <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
                 <div class="input-group input-group-sm mb-3">
-                    <button class="btn btn-secondary" type="submit" id="button-addon2">Logout</button>
+                    <button class="btn btn-light" type="submit" id="button-addon2">Logout</button>
                 </div>
             </form>
         </div>
@@ -80,23 +80,29 @@
                     </div>
                     <div class="col-md-9">
                         <div class="movie-title">
-                            <a th:text="*{i.title}"
-                                th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
+                            <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
                         </div>
                         <br>
                         <p th:text="*{i.overview}"></p>
-                        <div class="movie-info-bottom">
-                            <span class="star fa fa-star"></span>
-                            <span class="star fa fa-star"></span>
-                            <span class="star fa fa-star"></span>
-                            <span class="star fa fa-star"></span>
-                            <span class="star fa fa-star"></span>
-                            <span class="rating-num" th:text="*{i.rating}"></span><span
-                                th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
+                        <div class="d-flex flex-row align-items-end movie-info-bottom">
+                            <div>
+                                <span class="star fa fa-star"></span>
+                                <span class="star fa fa-star"></span>
+                                <span class="star fa fa-star"></span>
+                                <span class="star fa fa-star"></span>
+                                <span class="star fa fa-star"></span>
+                            </div>
+                            &nbsp;
+                            <div>
+                                <span class="rating-num" th:text="*{i.rating}"></span>
+                                <span th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
+                            </div>
                         </div>
+                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                            <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
+                                type="submit" id="button-addon2">Add to Watchlist</button>
+                        </form>
                         <br>
-                        <!-- <label for="id">Save</label>
-                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
                     </div>
                 </div>
                 <br>

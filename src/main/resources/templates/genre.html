@@ -19,17 +19,15 @@
 <body>
     <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-0">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="#">Sign In</a>
-                    <a class="nav-link" href="#">About Us</a>
-                    <a class="nav-link" href="#">Get the App</a>
+            <div id="navbar-branding" class="navbar-brand"></div>
+            <form action="#" th:action="@{/user}" th:object="${userObj}" method="post" class="d-flex form-control-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">@</span>
+                    <input class="form-control" type="text" th:field="*{username}" placeholder="Username" size="30"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    <button class="btn btn-secondary" type="submit" id="button-addon2">Login</button>
                 </div>
-            </div>
+            </form>
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">

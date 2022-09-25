@@ -111,6 +111,7 @@ public class MoviesController {
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
 
         return "movie";
     }
@@ -136,6 +137,7 @@ public class MoviesController {
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
 
         return "genre";
     }
@@ -180,6 +182,7 @@ public class MoviesController {
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("userObj", new User());
 
         return "search";
     }
