@@ -29,6 +29,10 @@ h2 {
     background-color: #545652;
 }
 
+.input-group {
+    margin: 0 0 0 0 !important;
+}
+
 #navbar-branding {
     font-weight: bold;
     color: #27a;

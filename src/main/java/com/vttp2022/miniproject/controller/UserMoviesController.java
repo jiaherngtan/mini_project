@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
@@ -21,15 +22,18 @@ import com.vttp2022.miniproject.model.User;
 import com.vttp2022.miniproject.service.MoviesService;
 
 @Controller
-public class MoviesController {
+@RequestMapping(path = "/user")
+public class UserMoviesController {
 
-    public static final Logger logger = LoggerFactory.getLogger(MoviesController.class);
+    public static final Logger logger = LoggerFactory.getLogger(UserMoviesController.class);
 
     @Autowired
     private MoviesService ms;
 
-    @GetMapping("/")
-    public String generateTopRatedMovies(Model model) {
+    @GetMapping("/{username}")
+    public String generateTopRatedMovies(@PathVariable String username, Model model) {
+
+        logger.info("Username >>>" + username);
 
         Optional<List<Movie>> optPopularMovies = ms.getPopularMovies();
         Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
@@ -60,13 +64,15 @@ public class MoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
+        model.addAttribute("username", username);
 
-        return "index";
+        return "userIndex";
     }
 
-    @GetMapping("/subject/{id}")
-    public String generateMovieDetails(Model model, @PathVariable String id) {
+    @GetMapping("/{username}/subject/{id}")
+    public String generateMovieDetails(Model model,
+            @PathVariable(name = "username", required = true) String username,
+            @PathVariable(name = "id", required = true) String id) {
 
         Optional<Movie> optMovie = ms.getMovie(id);
         Optional<List<Movie>> optSimilarMovies = ms.getSimilarMovies(id);
@@ -111,12 +117,15 @@ public class MoviesController {
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("username", username);
 
-        return "movie";
+        return "userMovie";
     }
 
-    @GetMapping("/genre/{genre}")
-    public String generateMoviesByGenre(Model model, @PathVariable String genre) {
+    @GetMapping("/{username}/genre/{genre}")
+    public String generateMoviesByGenre(Model model,
+            @PathVariable(name = "username", required = true) String username,
+            @PathVariable(name = "genre", required = true) String genre) {
 
         Optional<List<Movie>> optMoviesByGenre = ms.getMoviesByGenre(genre);
 
@@ -136,14 +145,15 @@ public class MoviesController {
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("username", username);
 
-        return "genre";
+        return "userGenre";
     }
 
-    // @PostMapping("/search")
-    // public String searchMovie(@ModelAttribute Movie movie, Model model) {
-    @GetMapping(value = { "/search", "/genre/search", "/subject/search" })
-    public String searchMovie(@RequestParam(required = true) String query, Model model) {
+    @GetMapping(value = { "/{username}/search", "/{username}/genre/search", "/{username}/subject/search" })
+    public String searchMovie(Model model,
+            @PathVariable(name = "username", required = true) String username,
+            @RequestParam(required = true) String query) {
 
         String queryString = query;
         logger.info("Query String >>>" + queryString);
@@ -180,18 +190,9 @@ public class MoviesController {
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
+        model.addAttribute("username", username);
 
-        return "search";
-    }
-
-    @PostMapping("/user")
-    public String redirectToUser(@RequestParam String username) {
-        return "redirect:/user/" + username;
-    }
-
-    @PostMapping("/main")
-    public String redirectToMain() {
-        return "redirect:/";
+        return "userSearch";
     }
 
     @PostMapping("/favourite")

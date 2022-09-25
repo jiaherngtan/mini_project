@@ -18,24 +18,22 @@
 <body>
     <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-0">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="#">Sign In</a>
-                    <a class="nav-link" href="#">About Us</a>
-                    <a class="nav-link" href="#">Get the App</a>
-                </div>
+            <div>
+                <p class="text-light input-group" th:text="'Welcome, ' + *{username} + '!'"></p>
             </div>
+            <div id="navbar-branding" class="navbar-brand"></div>
+            <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <button class="btn btn-secondary" type="submit" id="button-addon2">Logout</button>
+                </div>
+            </form>
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">
         <div class="container-fluid">
             <div id="navbar-branding" class="navbar-brand">
-                <a id="navbar-branding" href="/"><img src="/img/film-icon.png" alt="The Movie Database" width="30"
-                        height="30">
+                <a id="navbar-branding" th:href="@{/user/{username}(username=${username})}"><img
+                        src="/img/film-icon.png" alt="The Movie Database" width="30" height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="search" method="get" class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
@@ -53,7 +51,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav" th:each="i : ${genreList}">
-                    <a class="nav-genre nav-link" th:text="*{i}" th:href="@{/genre/{id}(id=${i})}"></a>
+                    <a class="nav-genre nav-link" th:text="*{i}"
+                        th:href="@{/user/{username}/genre/{id}(id=${i},username=${username})}"></a>
                 </div>
             </div>
         </div>
@@ -69,12 +68,13 @@
             <div class="col-md-8">
                 <div class="row movie-card" th:each="i : ${moviesBySearch}">
                     <div class="col-md-3">
-                        <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
-                                width="150" height="200"></a>
+                        <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
+                                class="poster" th:src="@{${i.posterUrl}}" width="150" height="200"></a>
                     </div>
                     <div class="col-md-9">
                         <div class="movie-title">
-                            <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
+                            <a th:text="*{i.title}"
+                                th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
                         </div>
                         <br>
                         <p th:text="*{i.overview}"></p>
@@ -102,13 +102,13 @@
                 <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${nowPlayingMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
-                        th:href="@{/subject/{id}(id=${i.id})}"></a>
+                        th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
                 </div>
                 <br><br>
                 <h2>Now Playing&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${topRatedMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
-                        th:href="@{/subject/{id}(id=${i.id})}"></a>
+                        th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
                 </div>
             </div>
         </div>
