@@ -77,7 +77,7 @@
                         </div>
                         <br>
                         <p th:text="'Release Date: ' + *{i.releaseDate}"></p>
-                        <div class="movie-info-bottom">
+                        <div>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
@@ -85,6 +85,10 @@
                             <span class="star fa fa-star"></span>
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
+                            <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                                <button class="btn btn-sm btn-secondary watchlist-btn" type="submit"
+                                    id="button-addon2">Add to Watchlist</button>
+                            </form>
                         </div>
                     </div>
                 </div>

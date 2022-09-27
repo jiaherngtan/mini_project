@@ -29,6 +29,12 @@ h2 {
     background-color: #545652;
 }
 
+.top-right-button {
+    background-color: #545652;
+    color: white;
+    border: none;
+}
+
 .input-group {
     margin: 0 0 0 0 !important;
 }
@@ -80,7 +86,10 @@ h2 {
     padding: 10px 0 0 0;
 }
 
-.movie-info-bottom {
+.watchlist-btn {
+    background-color: #ffeada;
+    border-color: #F8D999;
+    color: black;
     position: absolute;
     bottom: 10px;
 }

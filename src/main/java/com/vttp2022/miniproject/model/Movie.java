@@ -3,6 +3,7 @@ package com.vttp2022.miniproject.model;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,10 +16,13 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 
-public class Movie {
+public class Movie implements Serializable {
+
+    public static final Logger logger = LoggerFactory.getLogger(Movie.class);
 
     private String id;
     private String imdbId;
+    private String imdbUrl;
     private String title;
     private String overview;
     private int runtime;
@@ -26,12 +30,10 @@ public class Movie {
     private String releaseYear;
     private String posterUrl;
     private float rating;
-    private BigDecimal ratingCount;
+    private String ratingCount;
     private List<String> genres;
     private List<String> countries;
     private List<String> languages;
-    private List<String> selectedMovieList;
-    private BigDecimal budget;
     private String queryString;
 
     public String getId() {
@@ -48,6 +50,14 @@ public class Movie {
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
+    }
+
+    public String getImdbUrl() {
+        return imdbUrl;
+    }
+
+    public void setImdbUrl(String imdbUrl) {
+        this.imdbUrl = imdbUrl;
     }
 
     public String getTitle() {
@@ -106,11 +116,11 @@ public class Movie {
         this.rating = rating;
     }
 
-    public BigDecimal getRatingCount() {
+    public String getRatingCount() {
         return ratingCount;
     }
 
-    public void setRatingCount(BigDecimal ratingCount) {
+    public void setRatingCount(String ratingCount) {
         this.ratingCount = ratingCount;
     }
 
@@ -130,28 +140,12 @@ public class Movie {
         this.languages = languages;
     }
 
-    public BigDecimal getBudget() {
-        return budget;
-    }
-
-    public void setBudget(BigDecimal budget) {
-        this.budget = budget;
-    }
-
     public List<String> getCountries() {
         return countries;
     }
 
     public void setCountries(List<String> countries) {
         this.countries = countries;
-    }
-
-    public List<String> getSelectedMovieList() {
-        return selectedMovieList;
-    }
-
-    public void setSelectedMovieList(List<String> selectedMovieList) {
-        this.selectedMovieList = selectedMovieList;
     }
 
     public String getQueryString() {
@@ -162,7 +156,14 @@ public class Movie {
         this.queryString = queryString;
     }
 
-    public static final Logger logger = LoggerFactory.getLogger(Movie.class);
+    @Override
+    public String toString() {
+        return "Movie [countries=" + countries + ", genres=" + genres + ", id=" + id + ", imdbId=" + imdbId
+                + ", imdbUrl=" + imdbUrl + ", languages=" + languages + ", overview=" + overview + ", posterUrl="
+                + posterUrl + ", queryString=" + queryString + ", rating=" + rating + ", ratingCount=" + ratingCount
+                + ", releaseDate=" + releaseDate + ", releaseYear=" + releaseYear + ", runtime=" + runtime + ", title="
+                + title + "]";
+    }
 
     public static List<Movie> createJsonGetMovies(String json) throws IOException {
 
@@ -186,7 +187,8 @@ public class Movie {
                 float rating = item.getJsonNumber("vote_average").bigDecimalValue().floatValue();
                 int scale = (int) Math.pow(10, 1);
                 rating = (float) Math.round(rating * scale) / scale;
-                BigDecimal ratingCount = item.getJsonNumber("vote_count").bigDecimalValue();
+                BigDecimal ratingCountBigDec = item.getJsonNumber("vote_count").bigDecimalValue();
+                String ratingCount = String.format("%1$,.0f", ratingCountBigDec);
 
                 movie.setId(id);
                 movie.setTitle(title);
@@ -233,7 +235,8 @@ public class Movie {
                 float rating = item.getJsonNumber("vote_average").bigDecimalValue().floatValue();
                 int scale = (int) Math.pow(10, 1);
                 rating = (float) Math.round(rating * scale) / scale;
-                BigDecimal ratingCount = item.getJsonNumber("vote_count").bigDecimalValue();
+                BigDecimal ratingCountBigDec = item.getJsonNumber("vote_count").bigDecimalValue();
+                String ratingCount = String.format("%1$,.0f", ratingCountBigDec);
 
                 movie.setId(id);
                 movie.setTitle(title);
@@ -284,7 +287,6 @@ public class Movie {
 
             String url = "https://image.tmdb.org/t/p/original/";
 
-            BigDecimal budget = jo.getJsonNumber("budget").bigDecimalValue();
             String id = jo.getJsonNumber("id").toString();
             String imdbId = jo.getString("imdb_id");
             String title = jo.getString("title");
@@ -297,10 +299,12 @@ public class Movie {
             float rating = jo.getJsonNumber("vote_average").bigDecimalValue().floatValue();
             int scale = (int) Math.pow(10, 1);
             rating = (float) Math.round(rating * scale) / scale;
-            BigDecimal ratingCount = jo.getJsonNumber("vote_count").bigDecimalValue();
+            BigDecimal ratingCountBigDec = jo.getJsonNumber("vote_count").bigDecimalValue();
+            String ratingCount = String.format("%1$,.0f", ratingCountBigDec);
 
             movie.setId(id);
             movie.setImdbId(imdbId);
+            movie.setImdbUrl("https://www.imdb.com/title/" + imdbId);
             movie.setTitle(title);
             movie.setOverview(overview);
             movie.setRuntime(runtime);
@@ -312,9 +316,7 @@ public class Movie {
             movie.setGenres(genres);
             movie.setLanguages(languages);
             movie.setCountries(countries);
-            movie.setBudget(budget);
         }
-
         return movie;
     }
 

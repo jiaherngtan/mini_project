@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
-import com.vttp2022.miniproject.model.User;
-import com.vttp2022.miniproject.service.MoviesService;
+import com.vttp2022.miniproject.service.MovieService;
+import com.vttp2022.miniproject.service.UserService;
 
 @Controller
 @RequestMapping(path = "/user")
@@ -28,12 +28,13 @@ public class UserMoviesController {
     public static final Logger logger = LoggerFactory.getLogger(UserMoviesController.class);
 
     @Autowired
-    private MoviesService ms;
+    private MovieService ms;
+
+    @Autowired
+    private UserService us;
 
     @GetMapping("/{username}")
     public String generateTopRatedMovies(@PathVariable String username, Model model) {
-
-        logger.info("Username >>>" + username);
 
         Optional<List<Movie>> optPopularMovies = ms.getPopularMovies();
         Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
@@ -64,7 +65,7 @@ public class UserMoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
+        // model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userIndex";
@@ -117,8 +118,6 @@ public class UserMoviesController {
         model.addAttribute("similarMovies", similarMovieList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userMovie";
@@ -146,8 +145,6 @@ public class UserMoviesController {
         model.addAttribute("genre", genre);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userGenre";
@@ -192,45 +189,29 @@ public class UserMoviesController {
         model.addAttribute("moviesBySearch", moviesBySearchList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userSearch";
     }
 
-    @PostMapping("/favourite")
-    public String selectedMovies(@ModelAttribute Movie movie, Model model) {
+    @PostMapping("/{username}/favourite")
+    public String selectedMovies(@PathVariable(name = "username", required = true) String username,
+            @ModelAttribute Movie m, Model model) {
 
-        List<String> favouriteMovieList = movie.getSelectedMovieList();
+        String id = m.getId();
+        logger.info(">>> movie id >>>" + id);
 
-        logger.info("output of form submission >>> " + favouriteMovieList);
-        // List<String> allListId = new LinkedList<>();
-        // List<Article> allList = al.getArticlesList();
-        // logger.info(">>> all list: " + allList);
-        // for (Article article : allList) {
-        // allListId.add(article.getId());
-        // }
-        // logger.info("all list ids >>> " + allListId);
-        // List<Article> selectedList = new LinkedList<>();
+        Optional<Movie> optMovie = ms.getMovie(id);
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        Movie movie = optMovie.get();
+        logger.info(">>> movie >>>" + movie.toString());
 
-        // logger.info(">>> " + selectedListId.size());
-        // logger.info(">>> " + allList.size());
+        us.addMovie(username, movie);
 
-        // for (int i = 0; i < selectedListId.size(); i++) {
-        // for (int j = 0; j < allList.size(); j++) {
-        // logger.info(">>> " + selectedListId.get(i) + "===" + allList.get(j).getId());
-        // if (selectedListId.get(i) == allList.get(j).getId()) {
-        // logger.info(">>> to add: " + allList.get(j));
-        // selectedList.add(allList.get(j));
-        // }
-        // }
-        // }
-        // // why selectedList is empty although there is a match?
-        // logger.info(">>> selected list: " + selectedList);
-        ms.saveMovies(favouriteMovieList);
-
-        return "redirect:/?";
+        return "redirect:/user/" + username;
     }
 
 }

@@ -18,9 +18,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.vttp2022.miniproject.model.Movie;
 
 @Service
-public class MoviesService {
+public class MovieService {
 
-    public static final Logger logger = LoggerFactory.getLogger(MoviesService.class);
+    public static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     // private static String apiKey = System.getenv("CRYPTO_COMPARE_API_KEY");
     private static String apiKey = "e11b4dc364918cc9f69fdd305d85ff8c";
@@ -243,29 +243,5 @@ public class MoviesService {
         }
         return Optional.empty();
     }
-
-    // redis service method
-    public void saveMovies(List<String> favouriteMovieList) {
-
-        logger.info(">>> movies to be saved on redis: " + favouriteMovieList);
-    }
-
-    // // redis service method
-    // public void saveArticles(List<Article> articlesList) {
-
-    // logger.info(">>> articles to be saved on redis: " + articlesList);
-
-    // for (Article a : articlesList) {
-    // redisTemplate.opsForValue().set(a.getId(), a);
-    // }
-    // }
-
-    // // redis service method
-    // public Article getArticleById(String id) {
-
-    // Article article = (Article) redisTemplate.opsForValue().get(id);
-
-    // return article;
-    // }
 
 }

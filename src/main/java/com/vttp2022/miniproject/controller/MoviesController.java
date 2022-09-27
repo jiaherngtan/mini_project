@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
-import com.vttp2022.miniproject.model.User;
-import com.vttp2022.miniproject.service.MoviesService;
+import com.vttp2022.miniproject.service.MovieService;
+import com.vttp2022.miniproject.service.UserService;
 
 @Controller
 public class MoviesController {
@@ -26,7 +25,10 @@ public class MoviesController {
     public static final Logger logger = LoggerFactory.getLogger(MoviesController.class);
 
     @Autowired
-    private MoviesService ms;
+    private MovieService ms;
+
+    @Autowired
+    private UserService us;
 
     @GetMapping("/")
     public String generateTopRatedMovies(Model model) {
@@ -59,8 +61,7 @@ public class MoviesController {
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
+        // model.addAttribute("userObj", new User());
 
         return "index";
     }
@@ -110,8 +111,6 @@ public class MoviesController {
         model.addAttribute("similarMovies", similarMovieList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
 
         return "movie";
     }
@@ -136,8 +135,6 @@ public class MoviesController {
         model.addAttribute("genre", genre);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
 
         return "genre";
     }
@@ -181,54 +178,29 @@ public class MoviesController {
         model.addAttribute("moviesBySearch", moviesBySearchList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
-        model.addAttribute("movieObj", new Movie());
-        model.addAttribute("userObj", new User());
 
         return "search";
     }
 
+    @PostMapping("/login")
+    public String loginPage(Model model) {
+
+        model.addAttribute("userServiceObj", new UserService());
+
+        return "login";
+    }
+
     @PostMapping("/user")
     public String redirectToUser(@RequestParam String username) {
+
+        us.createOrLoginUser(username);
+
         return "redirect:/user/" + username;
     }
 
     @PostMapping("/main")
     public String redirectToMain() {
         return "redirect:/";
-    }
-
-    @PostMapping("/favourite")
-    public String selectedMovies(@ModelAttribute Movie movie, Model model) {
-
-        List<String> favouriteMovieList = movie.getSelectedMovieList();
-
-        logger.info("output of form submission >>> " + favouriteMovieList);
-        // List<String> allListId = new LinkedList<>();
-        // List<Article> allList = al.getArticlesList();
-        // logger.info(">>> all list: " + allList);
-        // for (Article article : allList) {
-        // allListId.add(article.getId());
-        // }
-        // logger.info("all list ids >>> " + allListId);
-        // List<Article> selectedList = new LinkedList<>();
-
-        // logger.info(">>> " + selectedListId.size());
-        // logger.info(">>> " + allList.size());
-
-        // for (int i = 0; i < selectedListId.size(); i++) {
-        // for (int j = 0; j < allList.size(); j++) {
-        // logger.info(">>> " + selectedListId.get(i) + "===" + allList.get(j).getId());
-        // if (selectedListId.get(i) == allList.get(j).getId()) {
-        // logger.info(">>> to add: " + allList.get(j));
-        // selectedList.add(allList.get(j));
-        // }
-        // }
-        // }
-        // // why selectedList is empty although there is a match?
-        // logger.info(">>> selected list: " + selectedList);
-        ms.saveMovies(favouriteMovieList);
-
-        return "redirect:/?";
     }
 
 }

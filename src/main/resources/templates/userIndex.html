@@ -68,8 +68,6 @@
         <h1>Most Popular Movies</h1>
         <h2>As determined by users</h2>
         <p>Showing 20 Titles</p>
-        <!-- <form action="#" th:action="@{/favourite}" method="post">
-            <input type="submit" value="Save" /> -->
         <br>
         <div class="row">
             <div class="col-md-8">
@@ -98,7 +96,9 @@
                                 <span th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
                             </div>
                         </div>
-                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                        <form action="#" th:action="@{/user/{username}/favourite (username=${username})}"
+                            th:object="${movieObj}" method="post">
+                            <input type="hidden" th:value="${i.id}" name="id">
                             <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
                                 type="submit" id="button-addon2">Add to Watchlist</button>
                         </form>
@@ -128,8 +128,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- </form> -->
     </div>
     <footer class="container-fluid col text-center font-weight-light">
         &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved

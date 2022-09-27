@@ -20,12 +20,9 @@
     <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-0">
         <div class="container-fluid">
             <div id="navbar-branding" class="navbar-brand"></div>
-            <form action="#" th:action="@{/user}" th:object="${userObj}" method="post" class="d-flex form-control-sm">
+            <form action="#" th:action="@{/login}" method="post" class="d-flex form-control-sm">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">@</span>
-                    <input class="form-control" type="text" th:field="*{username}" placeholder="Username" size="30"
-                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    <button class="btn btn-secondary" type="submit" id="button-addon2">Login</button>
+                    <button class="btn btn-secondary top-right-button" type="submit" id="button-addon2">Login</button>
                 </div>
             </form>
         </div>
@@ -89,7 +86,7 @@
                             <span class="blueing" th:text="*{movie.runtime} + ' mins'"></span>
                             <br>
                             IMDb:
-                            <span class="blueing" th:text="*{movie.imdbId}"></span>
+                            <a class="blueing" th:href="@{${movie.imdbUrl}}" th:text="*{movie.imdbId}"></a>
                         </div>
                         <div id="movie-info-bottom">
                             <span class="star fa fa-star"></span>
@@ -99,7 +96,12 @@
                             <span class="star fa fa-star"></span>
                             <span class="rating-num" th:text="*{movie.rating}"></span><span
                                 th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
+                            <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                                <button class="btn btn-sm btn-secondary watchlist-btn" type="submit"
+                                    id="button-addon2">Add to Watchlist</button>
+                            </form>
                         </div>
+
                     </div>
                     <h2>Storyline&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                     <p th:text="*{movie.overview}"></p>

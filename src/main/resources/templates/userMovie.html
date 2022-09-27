@@ -91,7 +91,7 @@
                             <span class="blueing" th:text="*{movie.runtime} + ' mins'"></span>
                             <br>
                             IMDb:
-                            <span class="blueing" th:text="*{movie.imdbId}"></span>
+                            <a class="blueing" th:href="@{${movie.imdbUrl}}" th:text="*{movie.imdbId}"></a>
                         </div>
                         <div id="movie-info-bottom">
                             <span class="star fa fa-star"></span>
@@ -101,6 +101,10 @@
                             <span class="star fa fa-star"></span>
                             <span class="rating-num" th:text="*{movie.rating}"></span><span
                                 th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
+                            <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                                <button class="btn btn-sm btn-secondary watchlist-btn" type="submit"
+                                    id="button-addon2">Add to Watchlist</button>
+                            </form>
                         </div>
                     </div>
                     <h2>Storyline&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>

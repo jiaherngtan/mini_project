@@ -5,10 +5,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon-32x32.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Base CSS -->
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+    <title>Login</title>
 </head>
 
 <body>
+    <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-4">
+        <div class="container-fluid">
+            <div id="navbar-branding" class="navbar-brand">
+                <a id="navbar-branding" href="/"><img src="/img/film-icon.png" alt="The Movie Database" width="30"
+                        height="30">
+                    &nbsp;&nbsp;&nbsp;The Movie Database</a>
+            </div>
+
+        </div>
+    </nav>
+    <div class="main container-fluid">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <img src="/img/login.gif" alt="The Movie Database" width="300" height="450">
+            </div>
+            <div class="col-md-3">
+                <p>Login to track everything you want to watch.</p>
+                <form action="#" th:action="@{/user}" th:object="${userServiceObj}" method="post"
+                    class="d-flex form-control-sm login-form">
+                    <div class="input-group input-group-sm mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">@</span>
+                        <input class="form-control" type="text" th:field="*{username}" placeholder="Username" size="20"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        <button class="btn btn-secondary" type="submit" id="button-addon2">Login</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+    <footer class="container-fluid col text-center font-weight-light">
+        &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
+    </footer>
 
 </body>
 

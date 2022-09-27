@@ -89,8 +89,11 @@
                             <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
-
                         </div>
+                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                            <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
+                                type="submit" id="button-addon2">Add to Watchlist</button>
+                        </form>
                         <br>
                         <!-- <label for="id">Save</label>
                         <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->

@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+* {
+    color: #666666;
+    font-size: 13px;
+}
+
+.navbar-top {
+    background-color: #545652;
+}
+
+.main {
+    margin: 70px 0 70px 0;
+}
+
+.login-form {
+    padding: 0 70px 0 0;
+}
+
+.input-group {
+    margin: 0 0 0 0 !important;
+}
+
+#navbar-branding {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    border-top: 1px dotted lightgrey;
+}
