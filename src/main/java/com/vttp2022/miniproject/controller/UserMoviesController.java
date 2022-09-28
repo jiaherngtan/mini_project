@@ -1,8 +1,10 @@
 package com.vttp2022.miniproject.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
 import com.vttp2022.miniproject.service.MovieService;
-import com.vttp2022.miniproject.service.UserService;
+import com.vttp2022.miniproject.service.RedisService;
 
 @Controller
 @RequestMapping(path = "/user")
@@ -31,7 +33,7 @@ public class UserMoviesController {
     private MovieService ms;
 
     @Autowired
-    private UserService us;
+    private RedisService rs;
 
     @GetMapping("/{username}")
     public String generateTopRatedMovies(@PathVariable String username, Model model) {
@@ -184,6 +186,7 @@ public class UserMoviesController {
         for (String i : sortedGenre.values()) {
             genreList.add(i);
         }
+
         model.addAttribute("queryString", queryString);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesBySearch", moviesBySearchList);
@@ -194,12 +197,13 @@ public class UserMoviesController {
         return "userSearch";
     }
 
+    // add to watchlist button
     @PostMapping("/{username}/favourite")
-    public String selectedMovies(@PathVariable(name = "username", required = true) String username,
+    public String addMovie(@PathVariable(name = "username", required = true) String username,
             @ModelAttribute Movie m, Model model) {
 
         String id = m.getId();
-        logger.info(">>> movie id >>>" + id);
+        logger.info(">>> movie id to add >>>" + id);
 
         Optional<Movie> optMovie = ms.getMovie(id);
         if (optMovie.isEmpty()) {
@@ -209,9 +213,73 @@ public class UserMoviesController {
         Movie movie = optMovie.get();
         logger.info(">>> movie >>>" + movie.toString());
 
-        us.addMovie(username, movie);
+        rs.addMovie(username, movie);
 
         return "redirect:/user/" + username;
+    }
+
+    // remove from watchlist button
+    @PostMapping("/{username}/unfavourite")
+    public String deleteMovie(@PathVariable(name = "username", required = true) String username,
+            @ModelAttribute Movie m, Model model) {
+
+        String id = m.getId();
+        logger.info(">>> movie id to delete >>>" + id);
+
+        Optional<Movie> optMovie = ms.getMovie(id);
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        Movie movie = optMovie.get();
+
+        rs.deleteMovie(username, movie);
+
+        return "redirect:/user/" + username + "/watchlist";
+    }
+
+    @GetMapping("/{username}/watchlist")
+    public String generateWatchList(@PathVariable(name = "username", required = true) String username,
+            @ModelAttribute Movie m, Model model) {
+
+        Map<Movie, String> watchList = rs.getWatchList(username);
+        List<Movie> movieList = new ArrayList<Movie>(watchList.keySet());
+        List<String> dateTimeList = new ArrayList<String>(watchList.values());
+        // Map<List<Movie>, List<String>> displayWatchList = new HashMap<List<Movie>,
+        // List<String>>();
+        // displayWatchList.put(movieList, dateTimeList);
+
+        Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
+        Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
+
+        if (optNowPlayingMovies.isEmpty()) {
+            model.addAttribute("nowPlayingMovies", new LinkedList<Movie>());
+            return "index";
+        }
+        if (optTopRatedMovies.isEmpty()) {
+            model.addAttribute("topRatedMovies", new LinkedList<Movie>());
+            return "index";
+        }
+
+        List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
+        List<Movie> topRatedMovieList = optTopRatedMovies.get();
+
+        List<String> genreList = new LinkedList<>();
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
+            genreList.add(i);
+        }
+
+        model.addAttribute("genreList", genreList);
+        model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
+        model.addAttribute("topRatedMovies", topRatedMovieList);
+        model.addAttribute("movieObj", new Movie());
+        model.addAttribute("username", username);
+        // model.addAttribute("displayWatchList", displayWatchList);
+        model.addAttribute("movieList", movieList);
+        model.addAttribute("dateTimeList", dateTimeList);
+
+        return "userWatchlist";
     }
 
 }

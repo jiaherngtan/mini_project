@@ -35,6 +35,7 @@ public class Movie implements Serializable {
     private List<String> countries;
     private List<String> languages;
     private String queryString;
+    private String addedDateTime;
 
     public String getId() {
         return id;
@@ -156,6 +157,14 @@ public class Movie implements Serializable {
         this.queryString = queryString;
     }
 
+    public String getAddedDateTime() {
+        return addedDateTime;
+    }
+
+    public void setAddedDateTime(String addedDateTime) {
+        this.addedDateTime = addedDateTime;
+    }
+
     @Override
     public String toString() {
         return "Movie [countries=" + countries + ", genres=" + genres + ", id=" + id + ", imdbId=" + imdbId
@@ -215,10 +224,10 @@ public class Movie implements Serializable {
             JsonArray ja = jo.getJsonArray("results");
 
             int length;
-            if (ja.size() < 7) {
+            if (ja.size() < 2) {
                 length = ja.size();
             } else {
-                length = 7;
+                length = 2;
             }
             logger.info("length >>> " + length);
 
@@ -247,6 +256,7 @@ public class Movie implements Serializable {
                 movie.setRatingCount(ratingCount);
 
                 movieList.add(movie);
+                logger.info("movie added: " + movie.getTitle());
             }
         }
 

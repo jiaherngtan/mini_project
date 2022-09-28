@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
 import com.vttp2022.miniproject.service.MovieService;
-import com.vttp2022.miniproject.service.UserService;
+import com.vttp2022.miniproject.service.RedisService;
 
 @Controller
 public class MoviesController {
@@ -28,7 +28,7 @@ public class MoviesController {
     private MovieService ms;
 
     @Autowired
-    private UserService us;
+    private RedisService rs;
 
     @GetMapping("/")
     public String generateTopRatedMovies(Model model) {
@@ -185,7 +185,7 @@ public class MoviesController {
     @PostMapping("/login")
     public String loginPage(Model model) {
 
-        model.addAttribute("userServiceObj", new UserService());
+        model.addAttribute("redisServiceObj", new RedisService());
 
         return "login";
     }
@@ -193,7 +193,7 @@ public class MoviesController {
     @PostMapping("/user")
     public String redirectToUser(@RequestParam String username) {
 
-        us.createOrLoginUser(username);
+        rs.createOrLoginUser(username);
 
         return "redirect:/user/" + username;
     }

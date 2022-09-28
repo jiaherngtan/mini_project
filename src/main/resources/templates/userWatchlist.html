@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon-32x32.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+    <!-- Base CSS -->
+    <link th:href="@{/css/index.css}" rel="stylesheet">
+
+    <title th:text="*{username} + ' - Watchlist'"></title>
+</head>
+
+<body>
+    <nav class="navbar-top navbar navbar-expand-lg navbar-dark py-0">
+        <div class="container-fluid">
+            <div>
+                <p class="text-light input-group" th:text="'Welcome, ' + *{username} + '!'"></p>
+            </div>
+            <div id="navbar-branding" class="navbar-brand"></div>
+            <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
+                <div class="input-group input-group-sm mb-3">
+                    <button class="btn btn-light" type="submit" id="button-addon2">Logout</button>
+                </div>
+            </form>
+        </div>
+    </nav>
+    <nav class="navbar-two navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div id="navbar-branding" class="navbar-brand">
+                <a id="navbar-branding" th:href="@{/user/{username}(username=${username})}"><img
+                        src="/img/film-icon.png" alt="The Movie Database" width="30" height="30">
+                    &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <form action="search" method="get" class="d-flex form-control-sm" role="search">
+                    <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
+                        aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar-three navbar navbar-expand-lg py-0">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" th:each="i : ${genreList}">
+                    <a class="nav-genre nav-link" th:text="*{i}"
+                        th:href="@{/user/{username}/genre/{id}(id=${i},username=${username})}"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class=" container">
+        <h1>Your Watchlist</h1>
+        <br>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row movie-card" th:each="i : ${movieList}">
+                    <div class="col-md-3">
+                        <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
+                                class="poster" th:src="@{${i.posterUrl}}" width="150" height="200"></a>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="movie-title">
+                            <a th:text="*{i.title}"
+                                th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
+                            <p th:text="'(Date added: ' + *{i.addedDateTime} + ')'"
+                                class="date-time position-absolute top-0 end-0"></p>
+                        </div>
+                        <br>
+                        <p th:text=" *{i.overview}"></p>
+                        <div class="movie-info-bottom">
+                            <span class="star fa fa-star"></span>
+                            <span class="star fa fa-star"></span>
+                            <span class="star fa fa-star"></span>
+                            <span class="star fa fa-star"></span>
+                            <span class="star fa fa-star"></span>
+                            <span class="rating-num" th:text="*{i.rating}"></span><span
+                                th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
+                        </div>
+                        <form action="#" th:action="@{/user/{username}/unfavourite (username=${username})}"
+                            th:object="${movieObj}" method="post">
+                            <input type="hidden" th:value="${i.id}" name="id">
+                            <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
+                                type="submit" id="button-addon2">Remove</button>
+                        </form>
+                        <br>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="col-md-4">
+                <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
+                <div class="list-movie-title" th:each="i : ${nowPlayingMovies}">
+                    <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
+                        th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
+                </div>
+                <br><br>
+                <h2>Now Playing&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
+                <div class="list-movie-title" th:each="i : ${topRatedMovies}">
+                    <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"
+                        th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="container-fluid col text-center font-weight-light">
+        &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
+    </footer>
+
+</body>
+
+</html>

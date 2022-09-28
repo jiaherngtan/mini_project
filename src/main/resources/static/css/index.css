@@ -114,6 +114,10 @@ h2 {
     padding: 5px 0 5px 0;
 }
 
+.date-time {
+    margin-top: 10px;
+}
+
 footer {
     border-top: 1px dotted lightgrey;
 }

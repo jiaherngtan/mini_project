@@ -31,8 +31,12 @@
                 <img src="/img/login.gif" alt="The Movie Database" width="300" height="450">
             </div>
             <div class="col-md-3">
-                <p>Login to track everything you want to watch.</p>
-                <form action="#" th:action="@{/user}" th:object="${userServiceObj}" method="post"
+                <p>
+                    <span>Please login to continue.</span>
+                    <br>
+                    <span>Track everything you want to watch.</span>
+                </p>
+                <form action="#" th:action="@{/user}" th:object="${redisServiceObj}" method="post"
                     class="d-flex form-control-sm login-form">
                     <div class="input-group input-group-sm mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-sm">@</span>
