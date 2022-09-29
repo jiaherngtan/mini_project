@@ -28,7 +28,6 @@ public class RedisService {
     RedisTemplate<String, Object> redisTemplate;
 
     private String username;
-    // private Map<String, String> watchList = new HashMap<>();
 
     public String getUsername() {
         return username;
@@ -37,14 +36,6 @@ public class RedisService {
     public void setUsername(String username) {
         this.username = username;
     }
-
-    // public Map<String, String> getWatchList() {
-    // return watchList;
-    // }
-
-    // public void setWatchList(Map<String, String> watchList) {
-    // this.watchList = watchList;
-    // }
 
     public void createOrLoginUser(String username) {
 

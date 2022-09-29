@@ -235,7 +235,8 @@ public class MovieService {
         try {
             resp = template.getForEntity(urlUpdate, String.class);
             // logger.info("resp body >>> " + resp.getBody());
-            searchMovieList = Movie.createJsonGetSearchMovies(resp.getBody());
+            logger.info(">>> query 1 >>>" + queryString);
+            searchMovieList = Movie.createJsonGetSearchMovies(queryString, resp.getBody());
 
             return Optional.of(searchMovieList);
         } catch (Exception e) {

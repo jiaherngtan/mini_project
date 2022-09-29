@@ -23,11 +23,20 @@
                 <p class="text-light input-group" th:text="'Welcome, ' + *{username} + '!'"></p>
             </div>
             <div id="navbar-branding" class="navbar-brand"></div>
-            <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
-                <div class="input-group input-group-sm mb-3">
-                    <button class="btn btn-light" type="submit" id="button-addon2">Logout</button>
-                </div>
-            </form>
+            <div class="d-flex">
+                <form action="#" th:action="@{/user/{username}/watchlist (username=${username})}" method="post"
+                    class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit"
+                            id="button-addon2">Watchlist</button>
+                    </div>
+                </form>
+                <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit" id="button-addon2">Logout</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">
@@ -38,7 +47,7 @@
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="search" method="get" class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -59,11 +68,8 @@
         </div>
     </nav>
 
-
     <div class="container">
         <h1 th:text="*{movie.title} + ' (' + *{movie.releaseYear} + ')'"></h1>
-        <!-- <form action="#" th:action="@{/favourite}" method="post">
-            <input type="submit" value="Save" /> -->
         <div class="row">
             <div class="movie-card col-md-8">
                 <div class="row">
@@ -101,7 +107,10 @@
                             <span class="star fa fa-star"></span>
                             <span class="rating-num" th:text="*{movie.rating}"></span><span
                                 th:text="' (' + *{movie.ratingCount} + ' votes)'"></span>
-                            <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                            <form action="#"
+                                th:action="@{/user/{username}/subject/{id}/favourite (username=${username}, id=${movie.id})}"
+                                method="post">
+                                <input type="hidden" th:value="${movie.id}" name="id">
                                 <button class="btn btn-sm btn-secondary watchlist-btn" type="submit"
                                     id="button-addon2">Add to Watchlist</button>
                             </form>
@@ -109,8 +118,6 @@
                     </div>
                     <h2>Storyline&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                     <p th:text="*{movie.overview}"></p>
-                    <!-- <label for="id">Save</label>
-                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
                     <h2>More like this&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
 
                     <div class="row row-cols-5">
@@ -140,7 +147,6 @@
             </div>
         </div>
     </div>
-    <!-- </form> -->
     <footer class="container-fluid col text-center font-weight-light">
         &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
     </footer>

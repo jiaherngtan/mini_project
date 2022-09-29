@@ -214,8 +214,9 @@ public class Movie implements Serializable {
         return movieList;
     }
 
-    public static List<Movie> createJsonGetSearchMovies(String json) throws IOException {
+    public static List<Movie> createJsonGetSearchMovies(String queryString, String json) throws IOException {
 
+        logger.info(">>> query 2 >>>" + queryString);
         List<Movie> movieList = new LinkedList<>();
 
         try (InputStream is = new ByteArrayInputStream(json.getBytes())) {
@@ -254,9 +255,10 @@ public class Movie implements Serializable {
                 movie.setPosterUrl(url + posterUrl);
                 movie.setRating(rating);
                 movie.setRatingCount(ratingCount);
+                movie.setQueryString(queryString);
 
                 movieList.add(movie);
-                logger.info("movie added: " + movie.getTitle());
+                logger.info("movie added: " + movie.toString());
             }
         }
 

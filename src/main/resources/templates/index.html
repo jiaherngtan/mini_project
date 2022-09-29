@@ -36,7 +36,7 @@
                     <!-- <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
                     class="d-flex form-control-sm" role="search"> -->
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <!-- <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
                         size="50" aria-label="Search"> -->
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -63,8 +63,6 @@
         <h1>Most Popular Movies</h1>
         <h2>As determined by users</h2>
         <p>Showing 20 Titles</p>
-        <!-- <form action="#" th:action="@{/favourite}" method="post">
-            <input type="submit" value="Save" /> -->
         <br>
         <div class="row">
             <div class="col-md-8">
@@ -92,20 +90,12 @@
                                 <span class="rating-num" th:text="*{i.rating}"></span>
                                 <span th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
                             </div>
-                            <!-- <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post"
-                                class="d-flex form-control-sm">
-                                <button class="btn btn-sm btn-secondary float-end" type="submit" id="button-addon2">Add
-                                    to Watchlist</button>
-                            </form> -->
                         </div>
-                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                        <form action="#" th:action="@{/login}" method="post">
                             <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
                                 type="submit" id="button-addon2">Add to Watchlist</button>
                         </form>
                         <br>
-                        <!-- <label for="id">Save</label>
-                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
-
                     </div>
                     <br>
                 </div>

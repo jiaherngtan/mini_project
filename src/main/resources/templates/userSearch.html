@@ -22,11 +22,20 @@
                 <p class="text-light input-group" th:text="'Welcome, ' + *{username} + '!'"></p>
             </div>
             <div id="navbar-branding" class="navbar-brand"></div>
-            <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
-                <div class="input-group input-group-sm mb-3">
-                    <button class="btn btn-light" type="submit" id="button-addon2">Logout</button>
-                </div>
-            </form>
+            <div class="d-flex">
+                <form action="#" th:action="@{/user/{username}/watchlist (username=${username})}" method="post"
+                    class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit"
+                            id="button-addon2">Watchlist</button>
+                    </div>
+                </form>
+                <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit" id="button-addon2">Logout</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">
@@ -37,7 +46,7 @@
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="search" method="get" class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -61,8 +70,6 @@
 
     <div class=" container">
         <h1 th:text="'Results for &#147;' + *{queryString} + '&#8221;'"></h1>
-        <!-- <form action="#" th:action="@{/favourite}" method="post">
-            <input type="submit" value="Save" /> -->
         <br>
         <div class="row">
             <div class="col-md-8">
@@ -79,24 +86,22 @@
                         <br>
                         <p th:text="*{i.overview}"></p>
                         <div class="movie-info-bottom">
-                            <!-- <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
-                            <br> -->
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
-                            <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
                         </div>
-                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                        <form action="#" th:action="@{/user/{username}/search/favourite (username=${username})}"
+                            th:object="${movieObj}" method="post">
+                            <input type="hidden" th:value="${i.id}" name="id">
+                            <input type="hidden" th:value="${i.queryString}" name="queryString">
                             <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
                                 type="submit" id="button-addon2">Add to Watchlist</button>
                         </form>
                         <br>
-                        <!-- <label for="id">Save</label>
-                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
                     </div>
                 </div>
                 <br>
@@ -115,8 +120,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- </form> -->
     </div>
 
     <footer class="container-fluid col text-center font-weight-light">

@@ -34,7 +34,7 @@
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="search" method="get" class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -57,8 +57,6 @@
 
     <div class=" container">
         <h1 th:text="'Results for &#147;' + *{queryString} + '&#8221;'"></h1>
-        <!-- <form action="#" th:action="@{/favourite}" method="post">
-            <input type="submit" value="Save" /> -->
         <br>
         <div class="row">
             <div class="col-md-8">
@@ -74,24 +72,19 @@
                         <br>
                         <p th:text="*{i.overview}"></p>
                         <div class="movie-info-bottom">
-                            <!-- <span th:text="'Release Date: ' + *{i.releaseDate}"></span>
-                            <br> -->
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
-                            <!-- &nbsp; -->
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
                         </div>
-                        <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                        <form action="#" th:action="@{/login}" method="post">
                             <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
                                 type="submit" id="button-addon2">Add to Watchlist</button>
                         </form>
                         <br>
-                        <!-- <label for="id">Save</label>
-                        <input id="id" th:value="${i.id}" type="checkbox" name="selectedMovieList" /> -->
                     </div>
                 </div>
                 <br>
@@ -111,9 +104,6 @@
             </div>
         </div>
     </div>
-    <!-- </form> -->
-    </div>
-
     <footer class="container-fluid col text-center font-weight-light">
         &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
     </footer>

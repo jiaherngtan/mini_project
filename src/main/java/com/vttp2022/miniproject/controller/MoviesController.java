@@ -61,7 +61,6 @@ public class MoviesController {
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
-        // model.addAttribute("userObj", new User());
 
         return "index";
     }
@@ -142,7 +141,7 @@ public class MoviesController {
     // @PostMapping("/search")
     // public String searchMovie(@ModelAttribute Movie movie, Model model) {
     @GetMapping(value = { "/search", "/genre/search", "/subject/search" })
-    public String searchMovie(@RequestParam(required = true) String query, Model model) {
+    public String searchMovie(Model model, @RequestParam(required = true) String query) {
 
         String queryString = query;
         logger.info("Query String >>>" + queryString);
@@ -200,6 +199,7 @@ public class MoviesController {
 
     @PostMapping("/main")
     public String redirectToMain() {
+
         return "redirect:/";
     }
 

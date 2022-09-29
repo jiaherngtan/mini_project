@@ -34,7 +34,7 @@
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form action="search" method="get" class="d-flex form-control-sm" role="search">
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -79,7 +79,7 @@
                             <span class="star fa fa-star"></span>
                             <span class="rating-num" th:text="*{i.rating}"></span><span
                                 th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
-                            <form action="#" th:action="@{/favourite}" th:object="${userObj}" method="post">
+                            <form action="#" th:action="@{/login}" method="post">
                                 <button class="btn btn-sm btn-secondary watchlist-btn" type="submit"
                                     id="button-addon2">Add to Watchlist</button>
                             </form>

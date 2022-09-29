@@ -67,7 +67,6 @@ public class UserMoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
         model.addAttribute("movieObj", new Movie());
-        // model.addAttribute("userObj", new User());
         model.addAttribute("username", username);
 
         return "userIndex";
@@ -147,6 +146,7 @@ public class UserMoviesController {
         model.addAttribute("genre", genre);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
+        model.addAttribute("movieObj", new Movie());
         model.addAttribute("username", username);
 
         return "userGenre";
@@ -198,12 +198,11 @@ public class UserMoviesController {
     }
 
     // add to watchlist button
-    @PostMapping("/{username}/favourite")
-    public String addMovie(@PathVariable(name = "username", required = true) String username,
+    @PostMapping("/{username}/index/favourite")
+    public String addMovieFromIndex(@PathVariable(name = "username", required = true) String username,
             @ModelAttribute Movie m, Model model) {
 
         String id = m.getId();
-        logger.info(">>> movie id to add >>>" + id);
 
         Optional<Movie> optMovie = ms.getMovie(id);
         if (optMovie.isEmpty()) {
@@ -211,11 +210,68 @@ public class UserMoviesController {
             return "index";
         }
         Movie movie = optMovie.get();
-        logger.info(">>> movie >>>" + movie.toString());
 
         rs.addMovie(username, movie);
 
         return "redirect:/user/" + username;
+    }
+
+    @PostMapping("/{username}/{genre}/favourite")
+    public String addMovieFromGenre(Model model,
+            @PathVariable(name = "username", required = true) String username,
+            @PathVariable(name = "genre", required = true) String genre,
+            @ModelAttribute Movie m) {
+
+        String id = m.getId();
+
+        Optional<Movie> optMovie = ms.getMovie(id);
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        Movie movie = optMovie.get();
+
+        rs.addMovie(username, movie);
+
+        return "redirect:/user/" + username + "/genre/" + genre;
+    }
+
+    @PostMapping("/{username}/subject/{id}/favourite")
+    public String addMovieFromMovie(Model model,
+            @PathVariable(name = "username", required = true) String username,
+            @PathVariable(name = "id", required = true) String id) {
+
+        Optional<Movie> optMovie = ms.getMovie(id);
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        Movie movie = optMovie.get();
+
+        rs.addMovie(username, movie);
+
+        return "redirect:/user/" + username + "/subject/" + id;
+    }
+
+    @PostMapping("/{username}/search/favourite")
+    public String addMovieFromSearch(Model model, @ModelAttribute Movie m,
+            @PathVariable(name = "username", required = true) String username) {
+
+        String id = m.getId();
+        String query = m.getQueryString();
+        logger.info("id >>>" + id);
+        logger.info("query >>>" + query);
+
+        Optional<Movie> optMovie = ms.getMovie(id);
+        if (optMovie.isEmpty()) {
+            model.addAttribute("movie", new Movie());
+            return "index";
+        }
+        Movie movie = optMovie.get();
+
+        rs.addMovie(username, movie);
+
+        return "redirect:/user/" + username + "/search?query=" + query;
     }
 
     // remove from watchlist button
@@ -238,16 +294,13 @@ public class UserMoviesController {
         return "redirect:/user/" + username + "/watchlist";
     }
 
-    @GetMapping("/{username}/watchlist")
+    @PostMapping("/{username}/watchlist")
     public String generateWatchList(@PathVariable(name = "username", required = true) String username,
             @ModelAttribute Movie m, Model model) {
 
         Map<Movie, String> watchList = rs.getWatchList(username);
         List<Movie> movieList = new ArrayList<Movie>(watchList.keySet());
         List<String> dateTimeList = new ArrayList<String>(watchList.values());
-        // Map<List<Movie>, List<String>> displayWatchList = new HashMap<List<Movie>,
-        // List<String>>();
-        // displayWatchList.put(movieList, dateTimeList);
 
         Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
         Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
@@ -275,7 +328,6 @@ public class UserMoviesController {
         model.addAttribute("topRatedMovies", topRatedMovieList);
         model.addAttribute("movieObj", new Movie());
         model.addAttribute("username", username);
-        // model.addAttribute("displayWatchList", displayWatchList);
         model.addAttribute("movieList", movieList);
         model.addAttribute("dateTimeList", dateTimeList);
 

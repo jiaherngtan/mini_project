@@ -22,11 +22,20 @@
                 <p class="text-light input-group" th:text="'Welcome, ' + *{username} + '!'"></p>
             </div>
             <div id="navbar-branding" class="navbar-brand"></div>
-            <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
-                <div class="input-group input-group-sm mb-3">
-                    <button class="btn btn-light" type="submit" id="button-addon2">Logout</button>
-                </div>
-            </form>
+            <div class="d-flex">
+                <form action="#" th:action="@{/user/{username}/watchlist (username=${username})}" method="post"
+                    class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit"
+                            id="button-addon2">Watchlist</button>
+                    </div>
+                </form>
+                <form action="#" th:action="@{/main}" method="post" class="d-flex form-control-sm">
+                    <div class="input-group input-group-sm mb-3">
+                        <button class="btn btn-light top-right-button" type="submit" id="button-addon2">Logout</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </nav>
     <nav class="navbar-two navbar navbar-expand-lg">
@@ -40,7 +49,7 @@
                     <!-- <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
                     class="d-flex form-control-sm" role="search"> -->
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
-                        aria-label="Search">
+                        aria-label="Search" required>
                     <!-- <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
                         size="50" aria-label="Search"> -->
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
@@ -96,7 +105,7 @@
                                 <span th:text="' (' + *{i.ratingCount} + ' votes)'"></span>
                             </div>
                         </div>
-                        <form action="#" th:action="@{/user/{username}/favourite (username=${username})}"
+                        <form action="#" th:action="@{/user/{username}/index/favourite (username=${username})}"
                             th:object="${movieObj}" method="post">
                             <input type="hidden" th:value="${i.id}" name="id">
                             <button class="btn btn-sm btn-secondary position-absolute bottom-0 end-0 watchlist-btn"
