@@ -106,6 +106,7 @@ public class RedisService {
         for (Movie m : movieList) {
             if (m.getId().equals(movie.getId())) {
                 currWatchList.remove(m);
+                logger.info(">>> movie removed >>> " + m.toString());
             }
         }
         currUser.setWatchList(currWatchList);

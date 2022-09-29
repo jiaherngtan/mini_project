@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vttp2022.miniproject.model.Movie;
@@ -294,7 +295,7 @@ public class UserMoviesController {
         return "redirect:/user/" + username + "/watchlist";
     }
 
-    @PostMapping("/{username}/watchlist")
+    @RequestMapping(value = "/{username}/watchlist", method = { RequestMethod.POST, RequestMethod.GET })
     public String generateWatchList(@PathVariable(name = "username", required = true) String username,
             @ModelAttribute Movie m, Model model) {
 
