@@ -37,11 +37,14 @@ public class RedisService {
         this.username = username;
     }
 
-    public void createOrLoginUser(String username) {
+    public void instantiateUser(String username) {
 
         boolean userExists = redisTemplate.hasKey(username);
         logger.info(">>> " + username + " exists? >>> " + userExists);
-
+        if (!userExists) {
+            User user = new User();
+            redisTemplate.opsForValue().set(username, user);
+        }
     }
 
     public Map<Movie, String> getWatchList(String username) {

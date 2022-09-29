@@ -118,6 +118,13 @@ h2 {
     margin-top: 10px;
 }
 
+#error-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+
 footer {
     border-top: 1px dotted lightgrey;
 }

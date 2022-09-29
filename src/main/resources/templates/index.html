@@ -11,7 +11,6 @@
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
     <!-- Base CSS -->
     <link th:href="@{/css/index.css}" rel="stylesheet">
-
     <title>The Movie Database</title>
 </head>
 
@@ -33,12 +32,8 @@
                         height="30">
                     &nbsp;The Movie Database&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 <form th:action="search" method="get" class="d-flex form-control-sm" role="search">
-                    <!-- <form action="#" th:action="@{/search}" th:object="${movieObj}" method="post"
-                    class="d-flex form-control-sm" role="search"> -->
                     <input class="form-control me-2" type="text" name="query" placeholder="Search database" size="50"
                         aria-label="Search" required>
-                    <!-- <input class="form-control me-2" type="text" th:field="*{queryString}" placeholder="Search database"
-                        size="50" aria-label="Search"> -->
                     <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
@@ -122,8 +117,7 @@
             </div>
         </div>
     </div>
-    <!-- </form> -->
-    </div>
+
     <footer class="container-fluid col text-center font-weight-light">
         &copy; 2022 jh-mini-project.herokuapp.com, all rights reserved
     </footer>

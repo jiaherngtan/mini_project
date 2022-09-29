@@ -42,6 +42,7 @@ public class UserMoviesController {
         Optional<List<Movie>> optPopularMovies = ms.getPopularMovies();
         Optional<List<Movie>> optTopRatedMovies = ms.getTopRatedMovies();
         Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
+
         if (optPopularMovies.isEmpty()) {
             model.addAttribute("popularMovies", new LinkedList<Movie>());
             return "index";
@@ -55,14 +56,11 @@ public class UserMoviesController {
             return "index";
         }
 
-        List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> sortedGenre = ms.getGenres();
-        for (String i : sortedGenre.values()) {
-            genreList.add(i);
-        }
+        List<String> genreList = this.generateGenreList();
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
         List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
+
         model.addAttribute("genreList", genreList);
         model.addAttribute("popularMovies", popularMovieList);
         model.addAttribute("topRatedMovies", topRatedMovieList);
@@ -100,18 +98,15 @@ public class UserMoviesController {
             return "index";
         }
 
+        List<String> genreList = this.generateGenreList();
         Movie movie = optMovie.get();
         List<Movie> similarMovieList = optSimilarMovies.get();
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
-        List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> sortedGenre = ms.getGenres();
-        for (String i : sortedGenre.values()) {
-            genreList.add(i);
-        }
         List<String> movieGenreList = movie.getGenres();
         List<String> movieCountryList = movie.getCountries();
         List<String> movieLangList = movie.getLanguages();
+
         model.addAttribute("genreList", genreList);
         model.addAttribute("movieCountryList", movieCountryList);
         model.addAttribute("movieGenreList", movieGenreList);
@@ -137,13 +132,9 @@ public class UserMoviesController {
             return "index";
         }
 
+        List<String> genreList = this.generateGenreList();
         List<Movie> moviesByGenreList = optMoviesByGenre.get();
 
-        List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> sortedGenre = ms.getGenres();
-        for (String i : sortedGenre.values()) {
-            genreList.add(i);
-        }
         model.addAttribute("genre", genre);
         model.addAttribute("genreList", genreList);
         model.addAttribute("moviesByGenre", moviesByGenreList);
@@ -159,7 +150,7 @@ public class UserMoviesController {
             @RequestParam(required = true) String query) {
 
         String queryString = query;
-        logger.info("Query String >>>" + queryString);
+        // logger.info("Query String >>>" + queryString);
 
         Optional<List<Movie>> optMoviesBySearch = ms.getMoviesBySearch(queryString);
         Optional<List<Movie>> optNowPlayingMovies = ms.getNowPlayingMovies();
@@ -178,15 +169,10 @@ public class UserMoviesController {
             return "index";
         }
 
+        List<String> genreList = this.generateGenreList();
         List<Movie> moviesBySearchList = optMoviesBySearch.get();
         List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
-
-        List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> sortedGenre = ms.getGenres();
-        for (String i : sortedGenre.values()) {
-            genreList.add(i);
-        }
 
         model.addAttribute("queryString", queryString);
         model.addAttribute("genreList", genreList);
@@ -315,14 +301,9 @@ public class UserMoviesController {
             return "index";
         }
 
+        List<String> genreList = this.generateGenreList();
         List<Movie> nowPlayingMovieList = optNowPlayingMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
-
-        List<String> genreList = new LinkedList<>();
-        HashMap<Integer, String> sortedGenre = ms.getGenres();
-        for (String i : sortedGenre.values()) {
-            genreList.add(i);
-        }
 
         model.addAttribute("genreList", genreList);
         model.addAttribute("nowPlayingMovies", nowPlayingMovieList);
@@ -333,6 +314,15 @@ public class UserMoviesController {
         model.addAttribute("dateTimeList", dateTimeList);
 
         return "userWatchlist";
+    }
+
+    public List<String> generateGenreList() {
+        List<String> genreList = new LinkedList<>();
+        HashMap<Integer, String> sortedGenre = ms.getGenres();
+        for (String i : sortedGenre.values()) {
+            genreList.add(i);
+        }
+        return genreList;
     }
 
 }
