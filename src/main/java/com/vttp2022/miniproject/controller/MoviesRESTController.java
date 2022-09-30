@@ -32,7 +32,7 @@ public class MoviesRESTController {
     public ResponseEntity<Map<String, String>> getUserByUsername(@PathVariable String username) {
 
         try {
-            Optional<User> optUser = rs.getWatchlistByUsername(username);
+            Optional<User> optUser = rs.getUserByUsername(username);
             User user = optUser.get();
             Map<Movie, String> watchList = user.getWatchList();
             List<Movie> movieList = new ArrayList<Movie>(watchList.keySet());
@@ -68,7 +68,7 @@ public class MoviesRESTController {
     public ResponseEntity<List<String>> getUserByUsername2(@PathVariable String username) {
 
         try {
-            Optional<User> optUser = rs.getWatchlistByUsername(username);
+            Optional<User> optUser = rs.getUserByUsername(username);
             User user = optUser.get();
             Map<Movie, String> watchList = user.getWatchList();
             List<Movie> movieList = new ArrayList<Movie>(watchList.keySet());

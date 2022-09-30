@@ -39,7 +39,7 @@ public class RedisService {
     }
 
     // REST Controller method
-    public Optional<User> getWatchlistByUsername(String username) {
+    public Optional<User> getUserByUsername(String username) {
 
         User user = (User) redisTemplate.opsForValue().get(username);
         if (null != user) {
@@ -60,7 +60,8 @@ public class RedisService {
 
     public Map<Movie, String> getWatchList(String username) {
 
-        User currUser = (User) redisTemplate.opsForValue().get(username);
+        Optional<User> optCurrUser = this.getUserByUsername(username);
+        User currUser = optCurrUser.get();
         Map<Movie, String> currWatchList = currUser.getWatchList();
         List<Entry<Movie, String>> entryList = new ArrayList<>(currWatchList.entrySet());
         entryList.sort(Entry.comparingByValue());
@@ -91,7 +92,8 @@ public class RedisService {
             user.setWatchList(watchList);
             redisTemplate.opsForValue().set(username, user);
         } else {
-            User currUser = (User) redisTemplate.opsForValue().get(username);
+            Optional<User> optCurrUser = this.getUserByUsername(username);
+            User currUser = optCurrUser.get();
             Map<Movie, String> currWatchList = currUser.getWatchList();
             List<Movie> movieList = new ArrayList<Movie>(currWatchList.keySet());
             boolean movieExists = false;
@@ -114,7 +116,8 @@ public class RedisService {
     public void deleteMovie(String username, Movie movie) {
 
         logger.info("movie to be deleted >>>" + movie.toString());
-        User currUser = (User) redisTemplate.opsForValue().get(username);
+        Optional<User> optCurrUser = this.getUserByUsername(username);
+        User currUser = optCurrUser.get();
         Map<Movie, String> currWatchList = currUser.getWatchList();
         List<Movie> movieList = new ArrayList<Movie>(currWatchList.keySet());
         for (Movie m : movieList) {
