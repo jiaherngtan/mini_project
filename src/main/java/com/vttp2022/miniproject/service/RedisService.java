@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-//import java.util.TimeZone;
+import java.util.TimeZone;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
@@ -79,12 +79,13 @@ public class RedisService {
     public void addMovie(String username, Movie movie) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        // boolean isSGP = TimeZone.getDefault().getID().equals("Asia/Singapore");
+        boolean isUTC = TimeZone.getDefault().getID().equals("UTC");
+        // String timeZone = TimeZone.getDefault().getID();
         Date date = new Date();
-        // if (isSGP) {
-        // date.setTime(date.getTime() + TimeUnit.HOURS.toMillis(16));
-        // }
-        date.setTime(date.getTime() + TimeUnit.HOURS.toMillis(8));
+        if (isUTC) {
+            date.setTime(date.getTime() + TimeUnit.HOURS.toMillis(16));
+        }
+        // date.setTime(date.getTime() + TimeUnit.HOURS.toMillis(8));
         String dateTime = dateFormat.format(date);
         logger.info(">>> dateTime >>>" + dateTime);
         movie.setAddedDateTime(dateTime);
