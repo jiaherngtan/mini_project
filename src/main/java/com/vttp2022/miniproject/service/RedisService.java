@@ -79,7 +79,7 @@ public class RedisService {
     public void addMovie(String username, Movie movie) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        boolean isSGP = TimeZone.getDefault().getID().equals("Asia/Singapore");
+        boolean isSGP = TimeZone.getDefault().getID().equals("United States");
         Date date = new Date();
         if (isSGP) {
             date.setTime(date.getTime() + TimeUnit.HOURS.toMillis(16));
