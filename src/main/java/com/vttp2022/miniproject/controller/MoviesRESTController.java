@@ -38,6 +38,7 @@ public class MoviesRESTController {
             List<Movie> movieList = new ArrayList<Movie>(watchList.keySet());
             Map<String, String> movieMap = new HashMap<>();
 
+            movieMap.put("success", "User " + username + "'s watchlist:");
             for (Movie m : movieList) {
                 movieMap.put(m.getAddedDateTime(), m.getTitle());
             }
@@ -52,7 +53,7 @@ public class MoviesRESTController {
         } catch (Exception e) {
 
             Map<String, String> errorMap = new HashMap<>();
-            errorMap.put(username, "User or user content not found");
+            errorMap.put(username, "User or user content not found for " + username);
 
             ResponseEntity<Map<String, String>> errResp = ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -77,6 +78,7 @@ public class MoviesRESTController {
             for (Movie m : movieList) {
 
                 JsonObject resp = Json.createObjectBuilder()
+                        .add("success", "User " + username + "'s watchlist:")
                         .add(username, Json.createArrayBuilder()
                                 .add(Json.createObjectBuilder()
                                         .add("addedDateTime", m.getAddedDateTime())
@@ -92,7 +94,7 @@ public class MoviesRESTController {
             List<String> errResult = new LinkedList<>();
 
             JsonObject errResp = Json.createObjectBuilder()
-                    .add("error", "User or user content not found")
+                    .add("error", "User or user content not found for " + username)
                     .build();
 
             errResult.add(errResp.toString());
