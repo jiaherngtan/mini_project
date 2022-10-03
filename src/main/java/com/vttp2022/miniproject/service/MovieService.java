@@ -22,8 +22,7 @@ public class MovieService {
 
     public static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
-    // private static String apiKey = System.getenv("CRYPTO_COMPARE_API_KEY");
-    private static String apiKey = "e11b4dc364918cc9f69fdd305d85ff8c";
+    private static String apiKey = System.getenv("TMDB_API_KEY");
 
     public Optional<List<Movie>> getPopularMovies() {
 
