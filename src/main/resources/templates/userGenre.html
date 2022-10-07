@@ -72,16 +72,15 @@
         <h1 th:text="'Top 20 ' + *{genre} + ' Movies'"></h1>
         <br>
         <div class="genre-card row">
-            <div class="genre-movie-card col-md-4 col-lg-5" th:each="i : ${moviesByGenre}">
+            <div class="genre-movie-card col-md-4 col-lg-6" th:each="i : ${moviesByGenre}">
                 <br>
                 <div class="row">
-                    <div class="col-lg-2"></div>
                     <div class="col-lg-2">
                         <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
                                 class="poster" th:src="@{${i.posterUrl}}" width="100" height="125"></a>
                     </div>
                     <div class="col-lg-2"></div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="movie-title">
                             <a th:text="*{i.title}"
                                 th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
