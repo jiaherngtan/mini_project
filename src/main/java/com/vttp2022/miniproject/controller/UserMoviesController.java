@@ -101,8 +101,6 @@ public class UserMoviesController {
         List<String> genreList = this.generateGenreList();
         Movie movie = optMovie.get();
         List<Movie> similarMovieList = optSimilarMovies.get();
-        similarMovieList.remove(similarMovieList.size() - 1);
-        similarMovieList.remove(similarMovieList.size() - 2);
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
         List<String> movieGenreList = movie.getGenres();

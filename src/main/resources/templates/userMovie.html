@@ -123,7 +123,7 @@
                     <h2>More like this&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
 
                     <div class="row">
-                        <div class="col-lg-2" th:each="i : ${similarMovies}">
+                        <div class="col-lg-3" th:each="i : ${similarMovies}">
                             <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
                                     class="poster" th:src="@{${i.posterUrl}}" width="120" height="180"></a>
                             <div class="more-like-this-movie-title">
