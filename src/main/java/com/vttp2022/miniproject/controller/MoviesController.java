@@ -94,6 +94,8 @@ public class MoviesController {
         List<String> movieGenreList = movie.getGenres();
         List<String> movieLangList = movie.getLanguages();
         List<Movie> similarMovieList = optSimilarMovies.get();
+        similarMovieList.remove(similarMovieList.size() - 1);
+        similarMovieList.remove(similarMovieList.size() - 2);
         List<Movie> popularMovieList = optPopularMovies.get();
         List<Movie> topRatedMovieList = optTopRatedMovies.get();
 

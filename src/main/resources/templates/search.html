@@ -59,13 +59,13 @@
         <h1 th:text="'Results for &#147;' + *{queryString} + '&#8221;'"></h1>
         <br>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <div class="row movie-card" th:each="i : ${moviesBySearch}">
-                    <div class="col-md-3">
+                    <div class="col-lg-3">
                         <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
                                 width="150" height="200"></a>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-lg-9">
                         <div class="movie-title">
                             <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
                         </div>
@@ -89,7 +89,7 @@
                 </div>
                 <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${nowPlayingMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"

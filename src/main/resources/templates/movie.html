@@ -57,12 +57,12 @@
     <div class="container">
         <h1 th:text="*{movie.title} + ' (' + *{movie.releaseYear} + ')'"></h1>
         <div class="row">
-            <div class="movie-card col-md-8">
+            <div class="movie-card col-lg-8">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-lg-3">
                         <img class="poster" th:src="@{${movie.posterUrl}}" width="200" height="300">
                     </div>
-                    <div class="movie-card-content col-md-9">
+                    <div class="movie-card-content col-lg-9">
                         <div id="movie-info-top">
                             Genre:
                             <span class="blueing" th:each="i, iterStat : ${movieGenreList}"
@@ -85,6 +85,7 @@
                             IMDb:
                             <a class="blueing" th:href="@{${movie.imdbUrl}}" th:text="*{movie.imdbId}"></a>
                         </div>
+                        <br><br><br><br><br><br><br>
                         <div id="movie-info-bottom">
                             <span class="star fa fa-star"></span>
                             <span class="star fa fa-star"></span>
@@ -103,18 +104,20 @@
                     <p th:text="*{movie.overview}"></p>
                     <h2>More like this&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
 
-                    <div class="row row-cols-5">
-                        <div class="col" th:each="i : ${similarMovies}">
+                    <!-- <div class="row row-cols-5"> -->
+                    <div class="row">
+                        <div class="col-lg-2" th:each="i : ${similarMovies}">
                             <a th:href="@{/subject/{id}(id=${i.id})}"><img class="poster" th:src="@{${i.posterUrl}}"
                                     width="120" height="180"></a>
                             <div class="more-like-this-movie-title">
                                 <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
                             </div>
+                            <div class="col-lg-2"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="aside col-md-3">
+            <div class="aside col-lg-3">
                 <h2>Popular Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <div class="list-movie-title" th:each="i : ${popularMovies}">
                     <a th:text="*{iStat.index + 1} + '&nbsp;&nbsp;&nbsp;' + *{i.title}"

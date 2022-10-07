@@ -72,18 +72,18 @@ h2 {
     margin: 10px 0 10px 0;
 }
 
-.movie-card-content {
+/* .movie-card-content {
     position: relative;
-}
+} */
 
 #movie-info-top {
     padding: 10px 0 0 0;
 }
 
-#movie-info-bottom {
+/* #movie-info-bottom {
     position: absolute;
     bottom: 10px;
-}
+} */
 
 .blueing {
     color: #37a;
@@ -106,7 +106,6 @@ h2 {
 
 .more-like-this-movie-title {
     text-align: center;
-    margin: 0 50px 0 0;
 }
 
 .list-movie-title {

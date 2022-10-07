@@ -79,15 +79,16 @@
         <p>Showing 20 Titles</p>
         <br>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-lg-8">
                 <div class="row movie-card" th:each="i : ${popularMovies}">
-                    <div class="col-md-3">
+                    <div class="col-lg-3">
                         <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
                                 class="poster" th:src="@{${i.posterUrl}}" width="150" height="200"></a>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-lg-9">
                         <div class="movie-title">
-                            <a th:text="*{i.title}" th:href="@{/subject/{id}(id=${i.id})}"></a>
+                            <a th:text="*{i.title}"
+                                th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"></a>
                         </div>
                         <br>
                         <p th:text="*{i.overview}"></p>
@@ -116,11 +117,11 @@
                 </div>
                 <br>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4">
                 <h2>Top Rated Movies&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;&nbsp;&middot;</h2>
                 <hr>
                 <div class="row">
-                    <div class=" col-md-3" th:each="i : ${topRatedMovies}">
+                    <div class=" col-lg-3" th:each="i : ${topRatedMovies}">
                         <a th:href="@{/user/{username}/subject/{id}(id=${i.id},username=${username})}"><img
                                 class="poster" th:src="@{${i.posterUrl}}" width="80" height="120"></a>
                         <div class="aside-movie-title">
